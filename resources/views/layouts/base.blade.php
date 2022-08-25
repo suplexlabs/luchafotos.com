@@ -5,6 +5,23 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="icon" sizes="180x180" href="/favicon-180.png" />
+        <link rel="apple-touch-icon" href="/favicon-152.png" />
+
+        <!-- Twitter Card data -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="https://www.luchafoots.com" />
+        <meta name="twitter:title" content="Lucha Fotos" />
+        {{-- <meta name="twitter:image" content="{{$image}}" /> --}}
+
+        <!-- Open Graph data -->
+        <meta property="og:title" content="Lucha Fotos" />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="Lucha Fotos" />
+        <meta property="og:url" content="{{request()->url()}}" />
+        {{-- <meta property="og:image" content="{{$image}}" /> --}}
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="bg-brand-dark text-white">
