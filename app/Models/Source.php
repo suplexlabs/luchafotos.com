@@ -13,7 +13,7 @@ class Source extends Model
     use SoftDeletes;
 
     protected $guarded = ['id'];
-    protected $dates = ['lsat_check_date', 'next_check_date'];
+    protected $dates = ['lsat_check_at', 'next_check_at'];
 
     public function links()
     {
@@ -23,18 +23,6 @@ class Source extends Model
     public function isCrawler(): bool
     {
         return $this->type == Sources::CRAWLER->value;
-    }
-
-    public function getImages(): array
-    {
-        /** @var \App\Models\Link */
-        $link = $this->links->sortByDesc('publish_date')->first();
-
-        if (!$link) {
-            $link = new Link();
-        }
-
-        return $link->getImages();
     }
 
     public function getResponse(): array
