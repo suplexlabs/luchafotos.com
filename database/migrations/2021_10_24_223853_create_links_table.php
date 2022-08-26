@@ -17,29 +17,10 @@ class CreateLinksTable extends Migration
             $table->id();
             $table->string('unique_id')->index()->nullable();
             $table->foreignId('source_id')->constrained();
-            $table->boolean('is_active')->default(false);
-            $table->string('type')->index();
             $table->string('title', 700);
-            $table->string('code', 700)->index();
-            $table->string('guid', 700)->index();
             $table->mediumText('url');
-            $table->longText('content')->nullable();
-            $table->dateTime('publish_date')->index();
-            $table->dateTime('featured_until_date')->index();
-            $table->decimal('wrestlability')->nullable()->index();
-            $table->integer('num_page_views')->nullable()->index();
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
-        Schema::create('link_audio', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('link_id')->constrained()->cascadeOnDelete();
-            $table->mediumText('url', 500);
-            $table->integer('duration')->unsigned()->index()->nullable();
-            $table->integer('episode')->unsigned()->index()->nullable();
-            $table->integer('season')->unsigned()->index()->nullable();
-            $table->boolean('is_explicit')->default(false)->index();
+            $table->dateTime('published_at')->index();
+            $table->boolean('is_active')->default(false)->index();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -53,6 +34,5 @@ class CreateLinksTable extends Migration
     public function down()
     {
         Schema::dropIfExists('links');
-        Schema::dropIfExists('link_audio');
     }
 }
