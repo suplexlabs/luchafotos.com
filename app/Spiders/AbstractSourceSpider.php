@@ -31,21 +31,31 @@ abstract class AbstractSourceSpider extends BasicSpider
 
     protected function getSource(): Source
     {
-        return Source::where('type', Sources::CRAWLER)
+        $source = Source::where('type', Sources::CRAWLER)
             ->where('is_active', true)
             ->where('site', $this->startUrls[0])
             ->first();
+
+        if (!$source) {
+            $source = Source::create([
+                'name'      => explode("\\", get_class($this))[0],
+                'type'      => Sources::CRAWLER,
+                'is_active' => true,
+                'site'      => $this->startUrls[0]
+            ]);
+        }
+
+        return $source;
     }
 
     protected function getLinkInfo(Response $response): LinkInfo|null
     {
         $url = $response->getUri();
         $title = $response->filter('meta[property="og:title"]')->attr('content');
-        
+
         try {
             $content = $response->filter('meta[property="og:description"]')->attr('content');
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $content = null;
         }
 
