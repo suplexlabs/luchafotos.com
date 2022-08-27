@@ -6,10 +6,10 @@ use Generator;
 use RoachPHP\Downloader\Middleware\ExecuteJavascriptMiddleware;
 use RoachPHP\Http\Response;
 
-class WweSpider extends AbstractSourceSpider
+class WWEVideosSpider extends AbstractSourceSpider
 {
     public array $startUrls = [
-        'https://www.wwe.com/news'
+        'https://www.wwe.com/videos'
     ];
 
     public function __construct()
