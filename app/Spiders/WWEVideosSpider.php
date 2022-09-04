@@ -3,19 +3,24 @@
 namespace App\Spiders;
 
 use Generator;
-use RoachPHP\Downloader\Middleware\ExecuteJavascriptMiddleware;
+use App\Spiders\Middlewares\ExecuteJavascriptMiddleware;
 use RoachPHP\Http\Response;
 
 class WWEVideosSpider extends AbstractSourceSpider
 {
     public array $startUrls = [
-        'https://www.wwe.com/videos'
+        'https://www.wwe.com/videos',
     ];
 
     public function __construct()
     {
-        if (config('app.env') == 'production') {
-            $this->downloaderMiddleware[] = ExecuteJavascriptMiddleware::class;
+        if (config('app.env') == 'local') {
+            $this->downloaderMiddleware[] = [
+                ExecuteJavascriptMiddleware::class,
+                [
+                    'wsEndpoint' => 'ws://chrome:3000',
+                ]
+            ];
         }
 
         parent::__construct();
@@ -23,14 +28,15 @@ class WWEVideosSpider extends AbstractSourceSpider
 
     public function parse(Response $response): Generator
     {
-        $anchors = $response->filter('.card-content-align-top a')->links();
+        $anchors = $response->filter('.landing-page--feed-card .card-content-align-top a')->links();
 
         foreach ($anchors as $anchor) {
-            yield $this->request('GET', $anchor->getUri(), 'parseArticlePage');
+            dd($anchor->getUri());
+            yield $this->request('GET', $anchor->getUri(), 'parsePage');
         }
     }
 
-    public function parseArticlePage(Response $response): Generator
+    public function parsePage(Response $response): Generator
     {
         $source = $this->getSource();
         $info = $this->getLinkInfo($response);
@@ -40,8 +46,16 @@ class WWEVideosSpider extends AbstractSourceSpider
             return;
         }
 
-        $found = $source->links()->where('guid', $info->guid)->first();
-        if ($found && $found->media()->exists()) {
+        $poster = $response->filter('#wwe-videobox--videoarea .vjs-poster')->first();
+        $imagePath = $poster->attr('style');
+
+        dd($imagePath);
+
+        $info->imagePath  = $imagePath;
+        $info->imageTitle = $info->title;
+
+        $found = $source->links()->where('url', $info->url)->first();
+        if ($found) {
             yield $this->item([]);
             return;
         }

@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('fetch:rss-sources youtube')->hourly();
 
         // crawlers
-        $schedule->command('roach:run WweSpider')->hourly();
+        $schedule->command('roach:run WweVideosSpider')->hourly();
 
         // backups
         $schedule->command('backup:clean')->daily()->at('01:00')->timezone('America/New_York');

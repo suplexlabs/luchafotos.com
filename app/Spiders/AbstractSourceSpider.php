@@ -8,6 +8,7 @@ use App\Jobs\SaveLink;
 use App\Models\Source;
 use Carbon\Carbon;
 use RoachPHP\Downloader\Middleware\RequestDeduplicationMiddleware;
+use RoachPHP\Downloader\Middleware\RobotsTxtMiddleware;
 use RoachPHP\Downloader\Middleware\UserAgentMiddleware;
 use RoachPHP\Extensions\LoggerExtension;
 use RoachPHP\Extensions\StatsCollectorExtension;
@@ -18,7 +19,13 @@ abstract class AbstractSourceSpider extends BasicSpider
 {
     public array $downloaderMiddleware = [
         RequestDeduplicationMiddleware::class,
-        UserAgentMiddleware::class
+        [
+            UserAgentMiddleware::class,
+            [
+                'userAgent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
+            ]
+        ],
+        // RobotsTxtMiddleware::class
     ];
     public array $spiderMiddleware = [];
     public array $itemProcessors = [];
@@ -26,7 +33,7 @@ abstract class AbstractSourceSpider extends BasicSpider
         LoggerExtension::class,
         StatsCollectorExtension::class
     ];
-    public int $concurrency = 2;
+    public int $concurrency = 1;
     public int $requestDelay = 1;
 
     protected function getSource(): Source
@@ -54,13 +61,6 @@ abstract class AbstractSourceSpider extends BasicSpider
         $title = $response->filter('meta[property="og:title"]')->attr('content');
 
         try {
-            $content = $response->filter('meta[property="og:description"]')->attr('content');
-        } catch (\Exception $e) {
-            $content = null;
-        }
-
-
-        try {
             $ldJson = json_decode($response->filter('[type="application/ld+json"]')->text());
             $publishDate = data_get($ldJson, 'datePublished');
         } catch (\Exception $e) {
@@ -78,11 +78,9 @@ abstract class AbstractSourceSpider extends BasicSpider
         }
 
         $info = LinkInfo::from([
-            'title'       => $title,
-            'url'         => $url,
-            'guid'        => $url,
-            'content'     => $content,
-            'publishDate' => $publishDate,
+            'title'      => $title,
+            'url'        => $url,
+            'publishAt'  => $publishDate
         ]);
 
         return $info;

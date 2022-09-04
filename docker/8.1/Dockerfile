@@ -48,13 +48,10 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# install chromium & puppeter
-ENV PUPPETEER_SKIP_DOWNLOAD true
-RUN apt-get update \
-    && apt install -y chromium-browser \
-    && npm install -g puppeteer
-
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.1
+
+ENV PUPPETEER_SKIP_DOWNLOAD true
+RUN npm install -g puppeteer
 
 RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
