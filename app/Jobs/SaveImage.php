@@ -2,11 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Enums\Links;
 use App\Enums\Sources;
-use App\Repositories\LinkRepository;
-use App\Services\NLPService;
-use App\Services\RssService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -14,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Log;
 
-class SaveLink implements ShouldQueue
+class SaveImage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -34,10 +30,6 @@ class SaveLink implements ShouldQueue
 
     public function handle()
     {
-        $links = app(LinkRepository::class);
-        $rss = app(RssService::class);
-        $nlp = app(NLPService::class);
-
         /** @var \App\Datas\LinkInfo $info */
         $info = $this->info;
         $source = $this->source;
@@ -60,20 +52,6 @@ class SaveLink implements ShouldQueue
             }
         } else {
             $linkExists = $source->links()->where('guid', $info->guid)->exists();
-        }
-
-        switch ($source->type) {
-            case Sources::BLOG->value:
-            case Sources::TWITTER->value:
-            case Sources::CRAWLER->value:
-                $type = Links::ARTICLE;
-                break;
-            case Sources::PODCAST->value:
-                $type = Links::PODCAST;
-                break;
-            case Sources::YOUTUBE->value:
-                $type = Links::YOUTUBE;
-                break;
         }
 
         $publishDate = $info->publishDate;

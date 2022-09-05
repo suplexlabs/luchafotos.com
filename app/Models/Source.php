@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Sources;
+use Diarmuidie\NiceID\NiceID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,30 +14,26 @@ class Source extends Model
     use SoftDeletes;
 
     protected $guarded = ['id'];
-    protected $dates = ['lsat_check_at', 'next_check_at'];
 
-    public function links()
+    protected static function boot()
     {
-        return $this->hasMany(Link::class);
+        parent::boot();
+
+        static::creating(function (Source $item) {
+            $hasher = new NiceID($item->name . $item->site);
+            $hasher->setMinLength(10);
+
+            $item->unique_id = $hasher->encode(1);
+        });
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
     }
 
     public function isCrawler(): bool
     {
         return $this->type == Sources::CRAWLER->value;
-    }
-
-    public function getResponse(): array
-    {
-        return [
-            'lastCheckedDate'          => $this->last_check_date,
-            'nextCheckDate'            => $this->next_check_date,
-            'minutesToCheckForUpdates' => $this->minutes_to_check_for_updates
-        ];
-    }
-
-    public function getTwitterUsername(): string
-    {
-        $parts = explode('/', $this->site);
-        return array_pop($parts);
     }
 }

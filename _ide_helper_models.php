@@ -15,7 +15,7 @@ namespace App\Models{
  * App\Models\Image
  *
  * @property int $id
- * @property int $link_id
+ * @property int $source_id
  * @property string $url
  * @property string $domain
  * @property string|null $title
@@ -28,6 +28,8 @@ namespace App\Models{
  * @property string|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Media[] $media
  * @property-read int|null $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property-read int|null $tags_count
  * @method static \Plank\Mediable\MediableCollection|static[] all($columns = ['*'])
  * @method static \Plank\Mediable\MediableCollection|static[] get($columns = ['*'])
  * @method static \Illuminate\Database\Eloquent\Builder|Image newModelQuery()
@@ -41,8 +43,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereHasMediaMatchAll(array $tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereHeight($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereLinkId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereSourceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUrl($value)
@@ -53,41 +55,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Image withMediaMatchAll(bool $tags = [], bool $withVariants = false)
  */
 	class Image extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\Link
- *
- * @property int $id
- * @property string|null $unique_id
- * @property int $source_id
- * @property string $title
- * @property string $url
- * @property string $published_at
- * @property int $is_active
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \App\Models\Source $source
- * @method static \Illuminate\Database\Eloquent\Builder|Link newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Link newQuery()
- * @method static \Illuminate\Database\Query\Builder|Link onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Link query()
- * @method static \Illuminate\Database\Eloquent\Builder|Link whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Link whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Link whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Link whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Link wherePublishedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Link whereSourceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Link whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Link whereUniqueId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Link whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Link whereUrl($value)
- * @method static \Illuminate\Database\Query\Builder|Link withTrashed()
- * @method static \Illuminate\Database\Query\Builder|Link withoutTrashed()
- */
-	class Link extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -147,35 +114,21 @@ namespace App\Models{
  * @property int $id
  * @property string|null $unique_id
  * @property string $name
- * @property string|null $description
- * @property string $code
  * @property string|null $site
- * @property string|null $rss
  * @property string $type
- * @property int $is_active
- * @property string|null $last_check_at
- * @property \Illuminate\Support\Carbon|null $next_check_at
- * @property int|null $minutes_to_check_for_updates
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Link[] $links
- * @property-read int|null $links_count
+ * @property-read \Plank\Mediable\MediableCollection|\App\Models\Image[] $images
+ * @property-read int|null $images_count
  * @method static \Illuminate\Database\Eloquent\Builder|Source newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Source newQuery()
  * @method static \Illuminate\Database\Query\Builder|Source onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Source query()
- * @method static \Illuminate\Database\Eloquent\Builder|Source whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Source whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Source whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Source whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Source whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Source whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Source whereLastCheckAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Source whereMinutesToCheckForUpdates($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Source whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Source whereNextCheckAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Source whereRss($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Source whereSite($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Source whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Source whereUniqueId($value)

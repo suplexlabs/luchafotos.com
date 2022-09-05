@@ -2,36 +2,23 @@
 
 namespace App\Spiders;
 
+use App\Spiders\Traits\HasSource;
 use Generator;
-use App\Spiders\Middlewares\ExecuteJavascriptMiddleware;
 use RoachPHP\Http\Response;
 
-class WWEVideosSpider extends AbstractSourceSpider
+class WWEVideosSpider extends JavascriptSpider
 {
+    use HasSource;
+
     public array $startUrls = [
         'https://www.wwe.com/videos',
     ];
-
-    public function __construct()
-    {
-        if (config('app.env') == 'local') {
-            $this->downloaderMiddleware[] = [
-                ExecuteJavascriptMiddleware::class,
-                [
-                    'wsEndpoint' => 'ws://chrome:3000',
-                ]
-            ];
-        }
-
-        parent::__construct();
-    }
 
     public function parse(Response $response): Generator
     {
         $anchors = $response->filter('.landing-page--feed-card .card-content-align-top a')->links();
 
         foreach ($anchors as $anchor) {
-            dd($anchor->getUri());
             yield $this->request('GET', $anchor->getUri(), 'parsePage');
         }
     }
@@ -39,9 +26,9 @@ class WWEVideosSpider extends AbstractSourceSpider
     public function parsePage(Response $response): Generator
     {
         $source = $this->getSource();
-        $info = $this->getLinkInfo($response);
+        $data = $this->getImageData($response);
 
-        if (empty($info)) {
+        if (empty($data)) {
             yield $this->item([]);
             return;
         }
@@ -51,17 +38,17 @@ class WWEVideosSpider extends AbstractSourceSpider
 
         dd($imagePath);
 
-        $info->imagePath  = $imagePath;
-        $info->imageTitle = $info->title;
+        $data->imagePath  = $imagePath;
+        $data->imageTitle = $data->title;
 
-        $found = $source->links()->where('url', $info->url)->first();
+        $found = $source->links()->where('url', $data->url)->first();
         if ($found) {
             yield $this->item([]);
             return;
         }
 
-        $this->dispatchJob($info, $source);
+        $this->dispatchJob($data, $source);
 
-        yield $this->item($info->toArray());
+        yield $this->item($data->toArray());
     }
 }

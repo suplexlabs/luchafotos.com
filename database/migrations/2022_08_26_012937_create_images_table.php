@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('link_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('source_id')->constrained()->cascadeOnDelete();
             $table->mediumText('url');
             $table->string('domain');
             $table->string('title')->nullable();
@@ -26,10 +26,10 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-        Schema::create('image_links', function (Blueprint $table) {
+        Schema::create('image_tags', function (Blueprint $table) {
             $table->id();
             $table->foreignId('image_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('link_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('tag_id')->constrained()->cascadeOnDelete();
         });
     }
 

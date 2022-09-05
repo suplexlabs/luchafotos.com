@@ -32,18 +32,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // sources
-        $schedule->command('fetch:twitter-sources')->everyFifteenMinutes();
-        $schedule->command('fetch:rss-sources blog')->everyThirtyMinutes();
-        $schedule->command('fetch:rss-sources podcast')->everyThirtyMinutes();
-        $schedule->command('fetch:rss-sources youtube')->hourly();
-
         // crawlers
         $schedule->command('roach:run WweVideosSpider')->hourly();
 
         // backups
-        $schedule->command('backup:clean')->daily()->at('01:00')->timezone('America/New_York');
-        $schedule->command('backup:run')->daily()->at('01:30')->timezone('America/New_York');
+        // $schedule->command('backup:clean')->daily()->at('01:00')->timezone('America/New_York');
+        // $schedule->command('backup:run')->daily()->at('01:30')->timezone('America/New_York');
     }
 
     /**

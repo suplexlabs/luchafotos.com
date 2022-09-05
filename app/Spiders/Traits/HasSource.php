@@ -1,41 +1,16 @@
 <?php
 
-namespace App\Spiders;
+namespace App\Spiders\Traits;
 
-use App\Datas\LinkInfo;
 use App\Enums\Sources;
-use App\Jobs\SaveLink;
+use App\Jobs\SaveImage;
 use App\Models\Source;
 use Carbon\Carbon;
-use RoachPHP\Downloader\Middleware\RequestDeduplicationMiddleware;
-use RoachPHP\Downloader\Middleware\RobotsTxtMiddleware;
-use RoachPHP\Downloader\Middleware\UserAgentMiddleware;
-use RoachPHP\Extensions\LoggerExtension;
-use RoachPHP\Extensions\StatsCollectorExtension;
-use RoachPHP\Spider\BasicSpider;
+use ImageData;
 use RoachPHP\Http\Response;
 
-abstract class AbstractSourceSpider extends BasicSpider
+trait HasSource
 {
-    public array $downloaderMiddleware = [
-        RequestDeduplicationMiddleware::class,
-        [
-            UserAgentMiddleware::class,
-            [
-                'userAgent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
-            ]
-        ],
-        // RobotsTxtMiddleware::class
-    ];
-    public array $spiderMiddleware = [];
-    public array $itemProcessors = [];
-    public array $extensions = [
-        LoggerExtension::class,
-        StatsCollectorExtension::class
-    ];
-    public int $concurrency = 1;
-    public int $requestDelay = 1;
-
     protected function getSource(): Source
     {
         $source = Source::where('type', Sources::CRAWLER)
@@ -47,7 +22,6 @@ abstract class AbstractSourceSpider extends BasicSpider
             $source = Source::create([
                 'name'      => explode("\\", get_class($this))[0],
                 'type'      => Sources::CRAWLER,
-                'is_active' => true,
                 'site'      => $this->startUrls[0]
             ]);
         }
@@ -55,7 +29,7 @@ abstract class AbstractSourceSpider extends BasicSpider
         return $source;
     }
 
-    protected function getLinkInfo(Response $response): LinkInfo|null
+    protected function getImageData(Response $response): ImageData|null
     {
         $url = $response->getUri();
         $title = $response->filter('meta[property="og:title"]')->attr('content');
@@ -77,7 +51,7 @@ abstract class AbstractSourceSpider extends BasicSpider
             $publishDate->setMinute(now()->minute);
         }
 
-        $info = LinkInfo::from([
+        $info = ImageData::from([
             'title'      => $title,
             'url'        => $url,
             'publishAt'  => $publishDate
@@ -86,9 +60,8 @@ abstract class AbstractSourceSpider extends BasicSpider
         return $info;
     }
 
-    protected function dispatchJob(LinkInfo $info, Source $source)
+    protected function dispatchJob(ImageData $data, Source $source)
     {
-        dispatch(new SaveLink($info, $source))
-            ->onQueue('default');
+        dispatch(new SaveImage($data, $source));
     }
 }

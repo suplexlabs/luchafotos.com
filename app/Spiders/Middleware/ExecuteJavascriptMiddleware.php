@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Spiders\Middlewares;
+namespace App\Spiders\Middleware;
 
 use Psr\Log\LoggerInterface;
 use RoachPHP\Http\Response;

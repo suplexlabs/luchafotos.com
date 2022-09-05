@@ -13,4 +13,14 @@ class Image extends Model
 
     protected $guarded = ['id'];
     protected $dates = ['published_at'];
+
+    // public function source(): HasOne
+    // {
+    //     return $this->hasOne(Source::class, 'source_id');
+    // }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'image_tags');
+    }
 }

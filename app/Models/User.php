@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\Users;
-use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;

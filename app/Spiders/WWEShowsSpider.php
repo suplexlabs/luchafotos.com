@@ -2,27 +2,17 @@
 
 namespace App\Spiders;
 
+use App\Spiders\Traits\HasSource;
 use Generator;
-use RoachPHP\Downloader\Middleware\RequestDeduplicationMiddleware;
-use RoachPHP\Extensions\LoggerExtension;
-use RoachPHP\Extensions\StatsCollectorExtension;
 use RoachPHP\Http\Response;
-use RoachPHP\Spider\ParseResult;
 
-class WWEShowsSpider extends AbstractSourceSpider
+class WWEShowsSpider extends JavascriptSpider
 {
+    use HasSource;
+
     public array $startUrls = [
         'https://www.wwe.com/shows'
     ];
-
-    public function __construct()
-    {
-        if (config('app.env') == 'production') {
-            $this->downloaderMiddleware[] = ExecuteJavascriptMiddleware::class;
-        }
-
-        parent::__construct();
-    }
 
     public function parse(Response $response): Generator
     {

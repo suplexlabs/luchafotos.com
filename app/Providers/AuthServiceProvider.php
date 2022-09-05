@@ -2,16 +2,11 @@
 
 namespace App\Providers;
 
-use App\Models\Company;
-use App\Models\Event;
-use App\Models\Group;
-use App\Models\Link;
 use App\Models\Source;
-use App\Models\Topic;
+use App\Models\Tag;
 use App\Models\User;
 use App\Policies\AdminPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -22,12 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         User::class => AdminPolicy::class,
-        Company::class => AdminPolicy::class,
-        Event::class => AdminPolicy::class,
-        Group::class => AdminPolicy::class,
-        Link::class => AdminPolicy::class,
         Source::class => AdminPolicy::class,
-        Topic::class => AdminPolicy::class,
+        Tag::class => AdminPolicy::class,
     ];
 
     /**

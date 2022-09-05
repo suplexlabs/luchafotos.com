@@ -17,15 +17,8 @@ class CreateSourcesTable extends Migration
             $table->id();
             $table->string('unique_id')->index()->nullable();
             $table->string('name')->index();
-            $table->text('description')->nullable();
-            $table->string('code')->index();
             $table->string('site')->nullable();
-            $table->string('rss')->nullable();
             $table->string('type')->index();
-            $table->boolean('is_active')->index()->default(false);
-            $table->dateTime('last_check_at')->index()->nullable();
-            $table->dateTime('next_check_at')->index()->nullable();
-            $table->integer('minutes_to_check_for_updates')->unsigned()->index()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
