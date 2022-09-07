@@ -3,7 +3,9 @@
 namespace App\Spiders;
 
 use App\Spiders\Traits\HasSource;
+use Carbon\Carbon;
 use Generator;
+use App\Datas\ImageData;
 use RoachPHP\Http\Response;
 
 class WWEVideosSpider extends JavascriptSpider
@@ -33,15 +35,7 @@ class WWEVideosSpider extends JavascriptSpider
             return;
         }
 
-        $poster = $response->filter('#wwe-videobox--videoarea .vjs-poster')->first();
-        $imagePath = $poster->attr('style');
-
-        dd($imagePath);
-
-        $data->imagePath  = $imagePath;
-        $data->imageTitle = $data->title;
-
-        $found = $source->links()->where('url', $data->url)->first();
+        $found = $source->images()->where('url', $data->url)->first();
         if ($found) {
             yield $this->item([]);
             return;
@@ -50,5 +44,40 @@ class WWEVideosSpider extends JavascriptSpider
         $this->dispatchJob($data, $source);
 
         yield $this->item($data->toArray());
+    }
+
+    protected function getImageData(Response $response): ImageData|null
+    {
+        $siteUrl = $response->getUri();
+        $components = parse_url($siteUrl);
+        $domain = $components['host'];
+
+        $title = $response->filter('meta[property="og:title"]')->attr('content');
+
+        // get video artwork
+        $poster = $response->filter('.wwe-videobox--videoarea .vjs-poster')->first();
+        preg_match('/url\("?(.+?)"?\)/', $poster->attr('style'), $matches);
+
+        $url = $matches[1];
+        if (substr($url, 0, 1) == '/') {
+            $url = 'https://' . $domain . $url;
+        }
+
+        $headers = get_headers($url, true);
+        $publishDate = Carbon::parse($headers['Date']);
+        $etag = data_get($headers, 'ETag', md5($url));
+        list($width, $height) = getimagesize($url);
+
+        $info = ImageData::from([
+            'title'       => $title,
+            'url'         => $url,
+            'domain'      => $domain,
+            'etag'        => $etag,
+            'height'      => $height,
+            'width'       => $width,
+            'publishedAt' => $publishDate
+        ]);
+
+        return $info;
     }
 }
