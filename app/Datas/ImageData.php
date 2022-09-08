@@ -11,10 +11,7 @@ class ImageData extends Data
         public string $title,
         public string $url,
         public string $domain,
-        public string $etag,
-        public int $height,
-        public int $width,
-        public Carbon $publishedAt
+        public string $pageUrl,
     ) {
     }
 }

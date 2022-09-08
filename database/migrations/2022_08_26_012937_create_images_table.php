@@ -13,11 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::create('sites', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->nullable();
+            $table->string('domain');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('source_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('site_id')->constrained()->cascadeOnDelete();
             $table->mediumText('url');
-            $table->string('domain');
+            $table->mediumText('page_url')->nullable();
             $table->string('title')->nullable();
             $table->string('etag')->nullable();
             $table->integer('height')->index();
@@ -40,7 +49,8 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('image_tags');
         Schema::dropIfExists('images');
-        Schema::dropIfExists('image_links');
+        Schema::dropIfExists('sites');
     }
 };

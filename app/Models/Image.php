@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Plank\Mediable\Mediable;
 
 class Image extends Model
@@ -14,10 +15,16 @@ class Image extends Model
     protected $guarded = ['id'];
     protected $dates = ['published_at'];
 
-    // public function source(): HasOne
-    // {
-    //     return $this->hasOne(Source::class, 'source_id');
-    // }
+
+    public function source(): HasOne
+    {
+        return $this->hasOne(Source::class);
+    }
+
+    public function site(): HasOne
+    {
+        return $this->hasOne(Site::class);
+    }
 
     public function tags()
     {

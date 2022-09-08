@@ -3,7 +3,6 @@
 namespace App\Spiders;
 
 use App\Spiders\Traits\HasSource;
-use Carbon\Carbon;
 use Generator;
 use App\Datas\ImageData;
 use RoachPHP\Http\Response;
@@ -48,8 +47,8 @@ class WWEVideosSpider extends JavascriptSpider
 
     protected function getImageData(Response $response): ImageData|null
     {
-        $siteUrl = $response->getUri();
-        $components = parse_url($siteUrl);
+        $pageUrl = $response->getUri();
+        $components = parse_url($pageUrl);
         $domain = $components['host'];
 
         $title = $response->filter('meta[property="og:title"]')->attr('content');
@@ -63,19 +62,11 @@ class WWEVideosSpider extends JavascriptSpider
             $url = 'https://' . $domain . $url;
         }
 
-        $headers = get_headers($url, true);
-        $publishDate = Carbon::parse($headers['Date']);
-        $etag = data_get($headers, 'ETag', md5($url));
-        list($width, $height) = getimagesize($url);
-
         $info = ImageData::from([
-            'title'       => $title,
-            'url'         => $url,
-            'domain'      => $domain,
-            'etag'        => $etag,
-            'height'      => $height,
-            'width'       => $width,
-            'publishedAt' => $publishDate
+            'title'   => $title,
+            'url'     => $url,
+            'pageUrl' => $pageUrl,
+            'domain'  => $domain
         ]);
 
         return $info;
