@@ -30,23 +30,33 @@ class WWEShowsSpider extends JavascriptSpider
         foreach ($anchors as $anchor) {
             yield $this->request('GET', $anchor->getUri(), 'parseResultPage');
         }
+
+        $anchors = $response->filter('.wwe-feed-card--thumb.icon-gallery')->links();
+        foreach ($anchors as $anchor) {
+            yield $this->request('GET', $anchor->getUri(), 'parseGalleryPage');
+        }
+    }
+
+    public function parseGalleryPage(Response $response): Generator
+    {
+        $source = $this->getSource();
+        $images = $response->filter('.wwe-gallery--item img')->images();
+
+        foreach ($images as $image) {
+            $data = $this->getImageData($response, $image);
+            $this->dispatchJob($data, $source);
+
+            yield $this->item($data->toArray());
+        }
     }
 
     public function parseResultPage(Response $response): Generator
     {
         $source = $this->getSource();
-
         $images = $response->filter('.episode-feed-card--primary-img img')->images();
+
         foreach ($images as $image) {
             $data = $this->getImageData($response, $image);
-            dd($data);
-
-            $found = $source->images()->where('url', $data->url)->first();
-            if ($found) {
-                yield $this->item([]);
-                return;
-            }
-
             $this->dispatchJob($data, $source);
 
             yield $this->item($data->toArray());
@@ -60,8 +70,12 @@ class WWEShowsSpider extends JavascriptSpider
         $domain = $components['host'];
 
         $title = $image->getNode()->getAttribute('alt');
-        $poster = $image->getNode()->getAttribute('data-srcset');
-        $url = explode(' ', $poster)[0];
+
+        $url = $image->getUri();
+        if (!$url) {
+            $poster = $image->getNode()->getAttribute('data-srcset');
+            $url = explode(' ', $poster)[0];
+        }
 
         if (substr($url, 0, 1) == '/') {
             $url = 'https://' . $domain . $url;

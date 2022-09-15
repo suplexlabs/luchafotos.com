@@ -28,6 +28,11 @@ trait HasSource
 
     protected function dispatchJob(ImageData $data, Source $source)
     {
+        $found = $source->images()->where('url', $data->url)->first();
+        if ($found) {
+            return false;
+        }
+
         dispatch(new SaveImage($data, $source));
     }
 }

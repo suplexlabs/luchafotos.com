@@ -28,18 +28,6 @@ class WWEVideosSpider extends JavascriptSpider
     {
         $source = $this->getSource();
         $data = $this->getImageData($response);
-
-        if (empty($data)) {
-            yield $this->item([]);
-            return;
-        }
-
-        $found = $source->images()->where('url', $data->url)->first();
-        if ($found) {
-            yield $this->item([]);
-            return;
-        }
-
         $this->dispatchJob($data, $source);
 
         yield $this->item($data->toArray());
