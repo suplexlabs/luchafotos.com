@@ -2,6 +2,7 @@
 
 namespace App\Spiders;
 
+use App\Datas\ImageData;
 use App\Spiders\Middleware\ExecuteJavascriptMiddleware;
 use Generator;
 use RoachPHP\Downloader\Middleware\RequestDeduplicationMiddleware;
@@ -10,6 +11,7 @@ use RoachPHP\Extensions\LoggerExtension;
 use RoachPHP\Extensions\StatsCollectorExtension;
 use RoachPHP\Http\Response;
 use RoachPHP\Spider\BasicSpider;
+use Symfony\Component\DomCrawler\Image;
 
 class JavascriptSpider extends BasicSpider
 {
@@ -49,5 +51,33 @@ class JavascriptSpider extends BasicSpider
     {
         // include archives
         // example: https://www.wwe.com/shows/wwenxt/archive
+    }
+
+    protected function getImageDataByImage(Response $response, Image $image): ImageData|null
+    {
+        $pageUrl = $response->getUri();
+        $components = parse_url($pageUrl);
+        $domain = $components['host'];
+
+        $title = $image->getNode()->getAttribute('alt');
+
+        $url = $image->getUri();
+        if (!$url) {
+            $poster = $image->getNode()->getAttribute('data-srcset');
+            $url = explode(' ', $poster)[0];
+        }
+
+        if (substr($url, 0, 1) == '/') {
+            $url = 'https://' . $domain . $url;
+        }
+
+        $info = ImageData::from([
+            'title'   => $title,
+            'url'     => $url,
+            'pageUrl' => $pageUrl,
+            'domain'  => $domain
+        ]);
+
+        return $info;
     }
 }

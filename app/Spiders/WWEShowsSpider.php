@@ -43,7 +43,7 @@ class WWEShowsSpider extends JavascriptSpider
         $images = $response->filter('.wwe-gallery--item img')->images();
 
         foreach ($images as $image) {
-            $data = $this->getImageData($response, $image);
+            $data = $this->getImageDataByImage($response, $image);
             $this->dispatchJob($data, $source);
 
             yield $this->item($data->toArray());
@@ -56,38 +56,10 @@ class WWEShowsSpider extends JavascriptSpider
         $images = $response->filter('.episode-feed-card--primary-img img')->images();
 
         foreach ($images as $image) {
-            $data = $this->getImageData($response, $image);
+            $data = $this->getImageDataByImage($response, $image);
             $this->dispatchJob($data, $source);
 
             yield $this->item($data->toArray());
         }
-    }
-
-    protected function getImageData(Response $response, Image $image): ImageData|null
-    {
-        $pageUrl = $response->getUri();
-        $components = parse_url($pageUrl);
-        $domain = $components['host'];
-
-        $title = $image->getNode()->getAttribute('alt');
-
-        $url = $image->getUri();
-        if (!$url) {
-            $poster = $image->getNode()->getAttribute('data-srcset');
-            $url = explode(' ', $poster)[0];
-        }
-
-        if (substr($url, 0, 1) == '/') {
-            $url = 'https://' . $domain . $url;
-        }
-
-        $info = ImageData::from([
-            'title'   => $title,
-            'url'     => $url,
-            'pageUrl' => $pageUrl,
-            'domain'  => $domain
-        ]);
-
-        return $info;
     }
 }
