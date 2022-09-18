@@ -55,6 +55,9 @@ class ExecuteJavascriptMiddleware implements ResponseMiddlewareInterface
     {
         $browsershot = ($this->getBrowsershot)($uri);
 
+        $browsershot->waitUntilNetworkIdle(true);
+        // $browsershot->setDelay(60000);
+
         if (!empty($this->option('chromiumArguments'))) {
             $browsershot->addChromiumArguments($this->option('chromiumArguments'));
         }
