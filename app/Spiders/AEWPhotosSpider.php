@@ -28,8 +28,6 @@ class AEWPhotosSpider extends JavascriptSpider
     {
         $source = $this->getSource();
 
-        dd($response->filter('.gallery-item-content')->html());
-
         $images = $response->filter('.gallery-item.image-item img')->images();
         foreach ($images as $image) {
             $data = $this->getImageDataByImage($response, $image);
@@ -37,32 +35,5 @@ class AEWPhotosSpider extends JavascriptSpider
         }
 
         yield $this->item([]);
-    }
-
-    protected function getImageData(Response $response): ImageData|null
-    {
-        $pageUrl = $response->getUri();
-        $components = parse_url($pageUrl);
-        $domain = $components['host'];
-
-        $title = $response->filter('meta[property="og:title"]')->attr('content');
-
-        // get video artwork
-        $poster = $response->filter('.wwe-videobox--videoarea .vjs-poster')->first();
-        preg_match('/url\("?(.+?)"?\)/', $poster->attr('style'), $matches);
-
-        $url = $matches[1];
-        if (substr($url, 0, 1) == '/') {
-            $url = 'https://' . $domain . $url;
-        }
-
-        $info = ImageData::from([
-            'title'   => $title,
-            'url'     => $url,
-            'pageUrl' => $pageUrl,
-            'domain'  => $domain
-        ]);
-
-        return $info;
     }
 }
