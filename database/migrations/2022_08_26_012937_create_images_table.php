@@ -13,11 +13,29 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::create('sites', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->nullable();
+            $table->string('domain');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('pages', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('url');
+            $table->foreignId('site_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('link_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('source_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('site_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('page_id')->constrained()->cascadeOnDelete();
             $table->mediumText('url');
-            $table->string('domain');
             $table->string('title')->nullable();
             $table->string('etag')->nullable();
             $table->integer('height')->index();
@@ -26,10 +44,10 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-        Schema::create('image_links', function (Blueprint $table) {
+        Schema::create('image_tags', function (Blueprint $table) {
             $table->id();
             $table->foreignId('image_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('link_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('tag_id')->constrained()->cascadeOnDelete();
         });
     }
 
@@ -40,7 +58,9 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('image_tags');
         Schema::dropIfExists('images');
-        Schema::dropIfExists('image_links');
+        Schema::dropIfExists('pages');
+        Schema::dropIfExists('sites');
     }
 };

@@ -6,10 +6,10 @@
             Privacy Policy
         </x-slot>
         <p>
-            Your privacy is important to us. It is The Daily Smark's policy to respect
+            Your privacy is important to us. It is Lucha Fotos' policy to respect
             your privacy regarding any information we may collect from you across our
             website,
-            <a href="https://www.thedailysmark.com">https://www.thedailysmark.com</a>,
+            <a href="https://www.luchafotos.com">https://www.luchafotos.com</a>,
             and other sites we own and operate.
         </p>
         <p>

@@ -2,10 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\EventTicketDetail;
-use App\Models\Link;
 use App\Models\Source;
-use App\Models\Event;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
@@ -31,11 +28,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Relation::morphMap([
-            'link'                => Link::class,
-            'source'              => Source::class,
-            'event'               => Event::class,
-            'event_ticket_detail' => EventTicketDetail::class,
-        ]);
     }
 }

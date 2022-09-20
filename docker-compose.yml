@@ -3,7 +3,7 @@ version: '3'
 services:
     laravel.test:
         build:
-            context: ./vendor/laravel/sail/runtimes/8.1
+            context: ./docker/8.1
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
@@ -20,6 +20,7 @@ services:
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
         volumes:
             - '.:/var/www/html'
+            - '~/.ssh:/root/.ssh'
         networks:
             - sail
         depends_on:
@@ -44,6 +45,15 @@ services:
             test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
             retries: 3
             timeout: 5s
+    chrome:
+        image: 'browserless/chrome'
+        ports:
+            - '${BROWSERLESS_CHROME_PORT:-3000}:3000'
+        networks:
+            - sail
+        environment:
+            - CONNECTION_TIMEOUT=-1
+            # - DEFAULT_LAUNCH_ARGS=["--virtual-time-budget=10000"]
 networks:
     sail:
         driver: bridge

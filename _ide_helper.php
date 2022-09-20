@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 9.25.1.
+ * Generated for Laravel 9.27.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -4087,7 +4087,7 @@
                         return $instance->make($name, $value, $minutes, $path, $domain, $secure, $httpOnly, $raw, $sameSite);
         }
                     /**
-         * Create a cookie that lasts "forever" (five years).
+         * Create a cookie that lasts "forever" (400 days).
          *
          * @param string $name
          * @param string $value
@@ -11803,13 +11803,13 @@
          * Dump the request items and end the script.
          *
          * @param mixed $keys
-         * @return void 
+         * @return \Illuminate\Http\never 
          * @static 
          */ 
         public static function dd(...$keys)
         {
                         /** @var \Illuminate\Http\Request $instance */
-                        $instance->dd(...$keys);
+                        return $instance->dd(...$keys);
         }
                     /**
          * Dump the items.
@@ -18913,6 +18913,83 @@
                     /**
          * 
          *
+         * @see \Filament\Forms\Testing\TestsForms::assertFormExists()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertFormExists($name = 'form')
+        {
+                        return \Livewire\Testing\TestableLivewire::assertFormExists($name);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Forms\Testing\TestsForms::assertFormFieldExists()
+         * @param string $fieldName
+         * @param string $formName
+         * @return static 
+         * @static 
+         */ 
+        public static function assertFormFieldExists($fieldName, $formName = 'form')
+        {
+                        return \Livewire\Testing\TestableLivewire::assertFormFieldExists($fieldName, $formName);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Forms\Testing\TestsForms::assertFormFieldIsDisabled()
+         * @param string $fieldName
+         * @param string $formName
+         * @return static 
+         * @static 
+         */ 
+        public static function assertFormFieldIsDisabled($fieldName, $formName = 'form')
+        {
+                        return \Livewire\Testing\TestableLivewire::assertFormFieldIsDisabled($fieldName, $formName);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Forms\Testing\TestsForms::assertFormFieldIsEnabled()
+         * @param string $fieldName
+         * @param string $formName
+         * @return static 
+         * @static 
+         */ 
+        public static function assertFormFieldIsEnabled($fieldName, $formName = 'form')
+        {
+                        return \Livewire\Testing\TestableLivewire::assertFormFieldIsEnabled($fieldName, $formName);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Forms\Testing\TestsForms::assertFormFieldIsHidden()
+         * @param string $fieldName
+         * @param string $formName
+         * @return static 
+         * @static 
+         */ 
+        public static function assertFormFieldIsHidden($fieldName, $formName = 'form')
+        {
+                        return \Livewire\Testing\TestableLivewire::assertFormFieldIsHidden($fieldName, $formName);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Forms\Testing\TestsForms::assertFormFieldIsVisible()
+         * @param string $fieldName
+         * @param string $formName
+         * @return static 
+         * @static 
+         */ 
+        public static function assertFormFieldIsVisible($fieldName, $formName = 'form')
+        {
+                        return \Livewire\Testing\TestableLivewire::assertFormFieldIsVisible($fieldName, $formName);
+        }
+                    /**
+         * 
+         *
          * @see \Filament\Notifications\Testing\TestsNotifications::assertNotified()
          * @param \Filament\Notifications\Notification|string|null $notification
          * @return static 
@@ -19510,6 +19587,30 @@
         public static function resetTableFilters()
         {
                         return \Livewire\Testing\TestableLivewire::resetTableFilters();
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsFilters::removeTableFilter()
+         * @param string $filter
+         * @param string|null $field
+         * @return static 
+         * @static 
+         */ 
+        public static function removeTableFilter($filter, $field = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::removeTableFilter($filter, $field);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsFilters::removeTableFilters()
+         * @return static 
+         * @static 
+         */ 
+        public static function removeTableFilters()
+        {
+                        return \Livewire\Testing\TestableLivewire::removeTableFilters();
         }
                     /**
          * 
