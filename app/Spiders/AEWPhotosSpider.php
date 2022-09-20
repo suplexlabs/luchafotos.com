@@ -15,7 +15,6 @@ class AEWPhotosSpider extends JavascriptSpider
         'https://www.allelitewrestling.com/blog/categories/photos'
     ];
 
-
     public function parse(Response $response): Generator
     {
         $anchors = $response->filter('.blog-post-category-link-hashtag-hover-color .has-custom-focus')->links();
@@ -28,14 +27,16 @@ class AEWPhotosSpider extends JavascriptSpider
     public function parsePage(Response $response): Generator
     {
         $source = $this->getSource();
-        $images = $response->filter('.gallery-item-content img')->images();
 
+        dd($response->filter('.gallery-item-content')->html());
+
+        $images = $response->filter('.gallery-item.image-item img')->images();
         foreach ($images as $image) {
             $data = $this->getImageDataByImage($response, $image);
             $this->dispatchJob($data, $source);
         }
 
-        yield $this->item($data->toArray());
+        yield $this->item([]);
     }
 
     protected function getImageData(Response $response): ImageData|null

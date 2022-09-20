@@ -21,12 +21,21 @@ return new class extends Migration
             $table->softDeletes();
         });
 
+        Schema::create('pages', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('url');
+            $table->foreignId('site_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('source_id')->constrained()->cascadeOnDelete();
             $table->foreignId('site_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('page_id')->constrained()->cascadeOnDelete();
             $table->mediumText('url');
-            $table->mediumText('page_url')->nullable();
             $table->string('title')->nullable();
             $table->string('etag')->nullable();
             $table->integer('height')->index();
@@ -51,6 +60,7 @@ return new class extends Migration
     {
         Schema::dropIfExists('image_tags');
         Schema::dropIfExists('images');
+        Schema::dropIfExists('pages');
         Schema::dropIfExists('sites');
     }
 };

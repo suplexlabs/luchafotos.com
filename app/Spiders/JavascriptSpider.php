@@ -33,7 +33,7 @@ class JavascriptSpider extends BasicSpider
         $options = [
             'chromiumArguments' => [
                 'enable-logging',
-                'virtual-time-budget' => '60000',
+                'virtual-time-budget' => '30000',
             ]
         ];
 
