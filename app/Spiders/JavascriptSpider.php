@@ -31,14 +31,15 @@ class JavascriptSpider extends BasicSpider
     public function __construct()
     {
         $options = [
-            'chromiumArguments' => [
-                'enable-logging',
-                'virtual-time-budget' => '30000',
-            ]
+            'chromiumArguments' => []
         ];
 
         if (config('app.env') == 'local') {
             $options['wsEndpoint'] = 'ws://chrome:3000';
+            $options['chromiumArguments'] = [
+                'enable-logging',
+                'virtual-time-budget' => '30000'
+            ];
         }
 
         $this->downloaderMiddleware[] = [
