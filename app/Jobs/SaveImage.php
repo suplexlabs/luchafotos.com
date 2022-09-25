@@ -57,7 +57,7 @@ class SaveImage implements ShouldQueue
         }
 
         $site = Site::updateOrCreate(['domain' => $data->domain]);
-        $page = Page::updateOrCreate(['url' => $data->pageUrl, 'title' => $data->title]);
+        $page = Page::updateOrCreate(['site_id' => $site->id, 'url' => $data->pageUrl, 'title' => $data->title]);
 
         Image::create([
             'source_id'    => $source->id,
