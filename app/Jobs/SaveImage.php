@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Intervention\Image\Facades\Image as FacadesImage;
 
 class SaveImage implements ShouldQueue
 {
@@ -49,7 +50,6 @@ class SaveImage implements ShouldQueue
 
         $etag = data_get($headers, 'ETag', md5($url));
         $etag = str($etag)->replace('"', '');
-        list($width, $height) = getimagesize($url);
 
         $imageExists = $source->images()->where('etag', $etag)->exists();
         if ($imageExists) {
@@ -59,6 +59,8 @@ class SaveImage implements ShouldQueue
         $site = Site::updateOrCreate(['domain' => $data->domain]);
         $page = Page::updateOrCreate(['site_id' => $site->id, 'url' => $data->pageUrl, 'title' => $data->title]);
 
+        $img = FacadesImage::make($url);
+
         Image::create([
             'source_id'    => $source->id,
             'site_id'      => $site->id,
@@ -66,8 +68,8 @@ class SaveImage implements ShouldQueue
             'url'          => $data->url,
             'title'        => $data->title,
             'etag'         => $etag,
-            'height'       => $height,
-            'width'        => $width,
+            'height'       => $img->height(),
+            'width'        => $img->width(),
             'published_at' => $publishDate
         ]);
 
