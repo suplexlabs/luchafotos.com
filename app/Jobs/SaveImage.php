@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Image;
+use App\Models\Page;
 use App\Models\Site;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -56,7 +57,7 @@ class SaveImage implements ShouldQueue
         }
 
         $site = Site::updateOrCreate(['domain' => $data->domain]);
-        $page = Site::updateOrCreate(['url' => $data->pageUrl, 'title' => $data->title]);
+        $page = Page::updateOrCreate(['url' => $data->pageUrl, 'title' => $data->title]);
 
         Image::create([
             'source_id'    => $source->id,
