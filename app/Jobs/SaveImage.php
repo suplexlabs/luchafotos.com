@@ -46,7 +46,8 @@ class SaveImage implements ShouldQueue
         $headers = get_headers($url, true);
         $publishDate = Carbon::parse($headers['Date']);
 
-        $etag = str()->replace('"', data_get($headers, 'ETag', md5($url)));
+        $etag = data_get($headers, 'ETag', md5($url));
+        $etag = str($etag)->replace('"', '');
         list($width, $height) = getimagesize($url);
 
         $imageExists = $source->images()->where('etag', $etag)->exists();
