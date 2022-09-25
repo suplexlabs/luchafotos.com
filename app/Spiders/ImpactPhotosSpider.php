@@ -7,7 +7,7 @@ use App\Spiders\Traits\HasSource;
 use Generator;
 use RoachPHP\Http\Response;
 
-class AEWPhotosSpider extends JavascriptSpider
+class ImpactPhotosSpider extends JavascriptSpider
 {
     use HasSource;
 
