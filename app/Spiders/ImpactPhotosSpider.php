@@ -43,7 +43,7 @@ class ImpactPhotosSpider extends JavascriptSpider
         $components = parse_url($pageUrl);
         $domain = $components['host'];
 
-        $title = $response->filter('meta[property="og:title"]')->attr('content');
+        $title = $response->filter('title')->text();
 
         // get video artwork
         $url = $anchor->getUri();
