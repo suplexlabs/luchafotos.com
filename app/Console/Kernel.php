@@ -36,6 +36,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('roach:run WWEVideosSpider')->everyFourHours();
         $schedule->command('roach:run WWEShowsSpider')->everyThreeHours();
         $schedule->command('roach:run ImpactPhotosSpider')->weekly();
+        $schedule->command('roach:run ImpactSpider')->daily();
         // $schedule->command('roach:run AEWPhotosSpider')->daily();
 
         // backups
