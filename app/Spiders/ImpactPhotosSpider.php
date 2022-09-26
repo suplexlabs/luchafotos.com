@@ -20,7 +20,7 @@ class ImpactPhotosSpider extends JavascriptSpider
         $anchors = $response->filter('a.uael-grid-gallery-img')->links();
 
         foreach ($anchors as $anchor) {
-            yield $this->request('GET', $anchor->getNode()->getAttribute('href'), 'parsePage');
+            yield $this->request('GET', $anchor->getUri(), 'parsePage');
         }
     }
 
@@ -28,7 +28,7 @@ class ImpactPhotosSpider extends JavascriptSpider
     {
         $source = $this->getSource();
 
-        $anchors = $response->filter('.elementor-gallery-item')->links();
+        $anchors = $response->filter('a.elementor-gallery-item')->links();
         foreach ($anchors as $anchor) {
             $data = $this->getImageData($response, $anchor);
             $this->dispatchJob($data, $source);
