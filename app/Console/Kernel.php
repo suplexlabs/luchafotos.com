@@ -33,8 +33,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // crawlers
-        $schedule->command('roach:run WWEVideosSpider')->hourly();
-        $schedule->command('roach:run WWEShowsSpider')->hourly();
+        $schedule->command('roach:run WWEVideosSpider')->everyFourHours();
+        $schedule->command('roach:run WWEShowsSpider')->everyFourHours();
         $schedule->command('roach:run ImpactPhotosSpider')->daily();
         // $schedule->command('roach:run AEWPhotosSpider')->daily();
 
