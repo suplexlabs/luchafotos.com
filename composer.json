@@ -30,6 +30,8 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
+        "pestphp/pest": "^1.22",
+        "pestphp/pest-plugin-laravel": "^1.3",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0",
         "wnx/laravel-stats": "^2.7"
@@ -73,7 +75,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "composer/package-versions-deprecated": true
+            "composer/package-versions-deprecated": true,
+            "pestphp/pest-plugin": true
         }
     },
     "minimum-stability": "dev",

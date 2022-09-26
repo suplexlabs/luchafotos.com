@@ -16,8 +16,9 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $source_id
+ * @property int $site_id
+ * @property int $page_id
  * @property string $url
- * @property string $domain
  * @property string|null $title
  * @property string|null $etag
  * @property int $height
@@ -28,6 +29,8 @@ namespace App\Models{
  * @property string|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Media[] $media
  * @property-read int|null $media_count
+ * @property-read \App\Models\Site|null $site
+ * @property-read \App\Models\Source|null $source
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
  * @property-read int|null $tags_count
  * @method static \Plank\Mediable\MediableCollection|static[] all($columns = ['*'])
@@ -37,13 +40,14 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Image query()
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereDomain($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereEtag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereHasMedia($tags = [], bool $matchAll = false)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereHasMediaMatchAll(array $tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereHeight($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image wherePageId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereSiteId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereSourceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
@@ -105,6 +109,60 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereWidth($value)
  */
 	class Media extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Page
+ *
+ * @property int $id
+ * @property string $title
+ * @property string $url
+ * @property int $site_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Page onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereSiteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereUrl($value)
+ * @method static \Illuminate\Database\Query\Builder|Page withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Page withoutTrashed()
+ */
+	class Page extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Site
+ *
+ * @property int $id
+ * @property string|null $name
+ * @property string $domain
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Site newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Site newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Site onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Site query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereDomain($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Site withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Site withoutTrashed()
+ */
+	class Site extends \Eloquent {}
 }
 
 namespace App\Models{
