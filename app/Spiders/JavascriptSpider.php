@@ -59,13 +59,12 @@ class JavascriptSpider extends BasicSpider
         $pageUrl = $response->getUri();
         $components = parse_url($pageUrl);
         $domain = $components['host'];
-
         $title = $image->getNode()->getAttribute('alt');
 
         $url = $image->getUri();
         if (!$url) {
-            $poster = $image->getNode()->getAttribute('data-srcset');
-            $url = explode(' ', $poster)[0];
+            $url = $image->getNode()->getAttribute('data-srcset');
+            $url = explode(' ', $url)[0];
         }
 
         if (substr($url, 0, 1) == '/') {

@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\Facades\Image as FacadesImage;
 
 class SaveImage implements ShouldQueue
@@ -45,6 +46,14 @@ class SaveImage implements ShouldQueue
         }
 
         $url = $data->url;
+
+        try {
+            $img = FacadesImage::make($url);
+        } catch (NotReadableException $e) {
+            // if the image is not reaable then skip it
+            return;
+        }
+
         $headers = get_headers($url, true);
         $publishDate = Carbon::parse($headers['Date']);
 
@@ -59,13 +68,11 @@ class SaveImage implements ShouldQueue
         $site = Site::updateOrCreate(['domain' => $data->domain]);
         $page = Page::updateOrCreate(['site_id' => $site->id, 'url' => $data->pageUrl, 'title' => $data->title]);
 
-        $img = FacadesImage::make($url);
-
         Image::create([
             'source_id'    => $source->id,
             'site_id'      => $site->id,
             'page_id'      => $page->id,
-            'url'          => $data->url,
+            'url'          => $url,
             'title'        => $data->title,
             'etag'         => $etag,
             'height'       => $img->height(),
