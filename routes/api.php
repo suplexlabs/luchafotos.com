@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::name('search.')
+    ->prefix('search')
+    ->controller(SearchController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+    });
+
+Route::middleware('auth:sanctum')
+    ->group(function () {
+    });
