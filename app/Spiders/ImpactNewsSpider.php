@@ -7,20 +7,25 @@ use App\Spiders\Traits\HasSource;
 use Generator;
 use RoachPHP\Http\Response;
 
-class ImpactPhotosSpider extends JavascriptSpider
+class ImpactNewsSpider extends JavascriptSpider
 {
     use HasSource;
 
     public array $startUrls = [
-        'https://impactwrestling.com/wrestlers/'
+        'https://impactwrestling.com/news/'
     ];
 
     public function parse(Response $response): Generator
     {
-        $anchors = $response->filter('a.uael-grid-gallery-img')->links();
+        $anchors = $response->filter('.elementor-post__title a')->links();
 
         foreach ($anchors as $anchor) {
-            yield $this->request('GET', $anchor->getUri(), 'parsePage');
+            $url = $anchor->getUri();
+            $hasPhotos = preg_match('/-photos-/', $url);
+
+            if ($hasPhotos) {
+                yield $this->request('GET', $url, 'parsePage');
+            }
         }
     }
 
@@ -28,7 +33,7 @@ class ImpactPhotosSpider extends JavascriptSpider
     {
         $source = $this->getSource();
 
-        $anchors = $response->filter('a.elementor-gallery-item')->links();
+        $anchors = $response->filter('a.uael-grid-gallery-img')->links();
         foreach ($anchors as $anchor) {
             $data = $this->getImageData($response, $anchor);
             $this->dispatchJob($data, $source);
