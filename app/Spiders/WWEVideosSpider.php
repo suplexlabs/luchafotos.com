@@ -51,7 +51,7 @@ class WWEVideosSpider extends JavascriptSpider
             $url = $matches[1];
         }
         catch (\Exception $e) {
-            return null
+            return null;
         }
         
         if (substr($url, 0, 1) == '/') {
