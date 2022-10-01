@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
@@ -12,6 +13,6 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-        return view('frontend.index');
+        return Inertia::render('Home', []);
     }
 }

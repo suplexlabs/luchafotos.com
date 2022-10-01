@@ -15,6 +15,7 @@
         "filament/filament": "^2.0",
         "flowframe/laravel-trend": "^0.1.1",
         "fruitcake/laravel-cors": "3.0",
+        "inertiajs/inertia-laravel": "^0.6.3",
         "intervention/image": "^2.7",
         "laravel/framework": "^9.0",
         "plank/laravel-mediable": "^5.2",

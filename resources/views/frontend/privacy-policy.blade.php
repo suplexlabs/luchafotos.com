@@ -45,6 +45,6 @@
             about how we handle user data and personal information, feel free to contact
             us.
         </p>
-        <p>This policy is effective as of 12 June 2018.</p>
+        <p>This policy is effective as of 12 June 2022.</p>
     </x-structure.article>
 @endsection
