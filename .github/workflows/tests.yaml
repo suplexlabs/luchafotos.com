@@ -49,7 +49,7 @@ jobs:
         path: vendor
         key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
     - name: Copy .env
-      run: copy('.env.testing', '.env');"
+      run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
     - name: Install Dependencies
       if: steps.vendor-cache.outputs.cache-hit != 'true'
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
@@ -64,4 +64,5 @@ jobs:
     - name: Execute tests (Unit and Feature tests) via PestPHP
       run: |
           php artisan key:generate
+          php artisan migrate
           vendor/bin/pest
