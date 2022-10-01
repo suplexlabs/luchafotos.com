@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
 
-test('saves an image to the database', function () {
+test('can save image', function () {
     // setup data
     $data = ImageData::from([
         'title'   => 'Test Image',
@@ -23,6 +23,6 @@ test('saves an image to the database', function () {
     $job = new SaveImage($data, $source);
     $job->dispatchSync($data, $source);
 
-    // assets
+    // asserts
     $this->assertDatabaseHas('images', Arr::only($data->toArray(), ['url']));
 });
