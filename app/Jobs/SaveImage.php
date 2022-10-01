@@ -2,9 +2,11 @@
 
 namespace App\Jobs;
 
+use App\Datas\ImageData;
 use App\Models\Image;
 use App\Models\Page;
 use App\Models\Site;
+use App\Models\Source;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,7 +20,14 @@ class SaveImage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * @var \App\Datas\ImageData $data
+     */
     protected $data;
+
+    /**
+     * @var \App\Models\Source $source
+     */
     protected $source;
 
     /**
@@ -26,7 +35,7 @@ class SaveImage implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($data, $source)
+    public function __construct(ImageData $data, Source $source)
     {
         $this->data = $data;
         $this->source = $source;
@@ -34,19 +43,14 @@ class SaveImage implements ShouldQueue
 
     public function handle()
     {
-        /** @var \App\Datas\ImageData $info */
         $data = $this->data;
         $source = $this->source;
 
         if (!$source) {
             return;
         }
-        if ($source->trashed()) {
-            return;
-        }
 
         $url = $data->url;
-
         try {
             $img = FacadesImage::make($url);
         } catch (NotReadableException $e) {
