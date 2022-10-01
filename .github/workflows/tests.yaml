@@ -49,7 +49,7 @@ jobs:
         path: vendor
         key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
     - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      run: copy('.env.testing', '.env');"
     - name: Install Dependencies
       if: steps.vendor-cache.outputs.cache-hit != 'true'
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
@@ -62,12 +62,6 @@ jobs:
     - name: PHP Version
       run: php --version
     - name: Execute tests (Unit and Feature tests) via PestPHP
-      env:
-        DB_CONNECTION: mysql
-        DB_DATABASE: testing
-        DB_PORT: 33306
-        DB_USER: root
-        DB_PASSWORD: secret
       run: |
           php artisan key:generate
           vendor/bin/pest
