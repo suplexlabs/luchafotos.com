@@ -62,6 +62,12 @@ jobs:
     - name: PHP Version
       run: php --version
     - name: Execute tests (Unit and Feature tests) via PestPHP
+      env:
+        DB_CONNECTION: mysql
+        DB_DATABASE: testing
+        DB_PORT: 33306
+        DB_USER: root
+        DB_PASSWORD: secret
       run: |
           php artisan key:generate
           php artisan migrate
