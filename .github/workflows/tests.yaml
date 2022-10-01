@@ -70,5 +70,5 @@ jobs:
         DB_PASSWORD: secret
       run: |
           php artisan key:generate
-          php artisan migrate
+          php artisan migrate --force
           vendor/bin/pest
