@@ -1,5 +1,7 @@
 <?php
 
+use Inertia\Inertia;
+
 return [
 
     /*
@@ -169,6 +171,7 @@ return [
          */
         Wnx\LaravelStats\StatsServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
+        \Inertia\ServiceProvider::class,
 
         /*
          * Application Service Providers...
