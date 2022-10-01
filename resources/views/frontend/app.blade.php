@@ -20,8 +20,8 @@
         <meta property="og:site_name" content="Lucha Fotos" />
         <meta property="og:url" content="{{request()->url()}}" />
 
-        @vite(['resources/css/app.css', 'resources/js/app.jsx'])
         @inertiaHead
+        @vite(['resources/css/app.css', 'resources/js/app.jsx'])
     </head>
     <body class="bg-brand-dark text-white">
         <header class="mx-auto max-w-2xl text-center">
