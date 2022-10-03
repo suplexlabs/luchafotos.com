@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Datas\ImageData;
 use App\Models\Source;
 use App\Repositories\ImageRepository;
+use App\Services\TagService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -17,7 +18,8 @@ class SaveImage implements ShouldQueue
 
     protected ImageData $data;
     protected Source $source;
-    protected ImageRepository $repository;
+    protected ImageRepository $images;
+    protected TagService $tags;
 
     /**
      * Create a new job instance.
@@ -29,7 +31,8 @@ class SaveImage implements ShouldQueue
         $this->data = $data;
         $this->source = $source;
 
-        $this->repository = app(ImageRepository::class);
+        $this->images = app(ImageRepository::class);
+        $this->tags = app(TagService::class);
     }
 
     public function handle()
@@ -41,6 +44,9 @@ class SaveImage implements ShouldQueue
             return;
         }
 
-        $this->repository->createByData($source, $data);
+        $image = $this->images->createByData($source, $data);
+
+        $tags = $this->tags->createTagsByImage($image);
+        $image->tags()->sync($tags->pluck('id'));
     }
 }
