@@ -33,7 +33,7 @@ class WWEVideosSpider extends JavascriptSpider
             $this->dispatchJob($data, $source);
         }
 
-        yield $this->item($data->toArray());
+        yield $this->item([]);
     }
 
     protected function getImageData(Response $response): ImageData|null
