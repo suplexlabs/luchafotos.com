@@ -4,9 +4,8 @@ namespace App\Spiders;
 
 use App\Spiders\Traits\HasSource;
 use Generator;
-use App\Datas\ImageData;
 use RoachPHP\Http\Response;
-use Symfony\Component\DomCrawler\Image;
+use Symfony\Component\DomCrawler\Crawler;
 
 class WWEShowsSpider extends JavascriptSpider
 {
@@ -53,13 +52,28 @@ class WWEShowsSpider extends JavascriptSpider
     public function parseResultPage(Response $response): Generator
     {
         $source = $this->getSource();
-        $images = $response->filter('.episode-feed-card--primary-img img')->images();
 
-        foreach ($images as $image) {
+        /** @var \DOMElement[] $cards */
+        $cards = $response->filter('.episode-feed-cards .episode-feed-card');
+        foreach ($cards as $card) {
+            dd($card);
+
+            $card = new Crawler($card);
+
+            dd($card->filter('.episode-feed-card--primary-img img')->image());
+
+            $image = $card->filter('.episode-feed-card--primary-img img')->image();
+
             $data = $this->getImageDataByImage($response, $image);
+
+            $data->title = $card->filter('.episode-feed-card--title')->text();
+            $data->pageTitle = $image->getNode()->getAttribute('title');
+
+            dd($data);
+
             $this->dispatchJob($data, $source);
 
-            yield $this->item($data->toArray());
+            yield $this->item([]);
         }
     }
 }
