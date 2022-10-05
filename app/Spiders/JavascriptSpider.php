@@ -31,7 +31,12 @@ class JavascriptSpider extends BasicSpider
     public function __construct()
     {
         $options = [
-            'chromiumArguments' => []
+            'chromiumArguments' => [
+                'disable-setuid-sandbox',
+                'disable-dev-shm-usage',
+                'disable-accelerated-2d-canvas',
+                'disable-gpu'
+            ]
         ];
 
         if (config('app.env') == 'local') {
