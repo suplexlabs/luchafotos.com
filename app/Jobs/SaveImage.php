@@ -30,13 +30,13 @@ class SaveImage implements ShouldQueue
     {
         $this->data = $data;
         $this->source = $source;
-
-        $this->images = app(ImageRepository::class);
-        $this->tags = app(TagService::class);
     }
 
     public function handle()
     {
+        $this->images = app(ImageRepository::class);
+        $this->tags = app(TagService::class);
+
         $data = $this->data;
         $source = $this->source;
 
@@ -46,7 +46,9 @@ class SaveImage implements ShouldQueue
 
         $image = $this->images->createByData($source, $data);
 
-        $tags = $this->tags->createTagsByImage($image);
-        $image->tags()->sync($tags->pluck('id'));
+        if ($image) {
+            $tags = $this->tags->createTagsByImage($image);
+            $image->tags()->sync($tags->pluck('id'));
+        }
     }
 }

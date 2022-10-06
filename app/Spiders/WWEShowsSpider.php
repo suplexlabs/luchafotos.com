@@ -43,7 +43,12 @@ class WWEShowsSpider extends JavascriptSpider
 
         foreach ($images as $image) {
             $data = $this->getImageDataByImage($response, $image);
-            $this->dispatchJob($data, $source);
+
+            try {
+                $this->dispatchJob($data, $source);
+            } catch (\Exception $e) {
+                dd($data, $e);
+            }
 
             yield $this->item($data->toArray());
         }
@@ -54,26 +59,22 @@ class WWEShowsSpider extends JavascriptSpider
         $source = $this->getSource();
 
         /** @var \DOMElement[] $cards */
-        $cards = $response->filter('.episode-feed-cards .episode-feed-card');
-        foreach ($cards as $card) {
-            dd($card);
+        $response->filter('.episode-feed-cards .episode-feed-card')
+            ->each(function ($card) use ($source, $response) {
+                try {
+                    $image = $card->filter('.episode-feed-card--primary-img img')->image();
+                } catch (\Exception $e) {
+                    return;
+                }
 
-            $card = new Crawler($card);
+                $data = $this->getImageDataByImage($response, $image);
 
-            dd($card->filter('.episode-feed-card--primary-img img')->image());
+                $data->title = $card->filter('.episode-feed-card--title')->text();
+                $data->pageTitle = $image->getNode()->getAttribute('title');
 
-            $image = $card->filter('.episode-feed-card--primary-img img')->image();
+                $this->dispatchJob($data, $source);
+            });
 
-            $data = $this->getImageDataByImage($response, $image);
-
-            $data->title = $card->filter('.episode-feed-card--title')->text();
-            $data->pageTitle = $image->getNode()->getAttribute('title');
-
-            dd($data);
-
-            $this->dispatchJob($data, $source);
-
-            yield $this->item([]);
-        }
+        yield $this->item([]);
     }
 }

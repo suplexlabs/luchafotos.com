@@ -21,10 +21,6 @@ class TagService
         if ($tag) {
             $tags->push($tag);
         }
-        $tag = $this->createCompanyTag($image);
-        if ($tag) {
-            $tags->push($tag);
-        }
         $tag = $this->createWrestlerTag($image);
         if ($tag) {
             $tags->push($tag);

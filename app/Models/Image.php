@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Plank\Mediable\Mediable;
 
 class Image extends Model
@@ -16,17 +17,17 @@ class Image extends Model
     protected $dates = ['published_at'];
 
 
-    public function source(): HasOne
+    public function source(): BelongsTo
     {
-        return $this->hasOne(Source::class);
+        return $this->belongsTo(Source::class);
     }
 
-    public function site(): HasOne
+    public function site(): BelongsTo
     {
-        return $this->hasOne(Site::class);
+        return $this->belongsTo(Site::class);
     }
 
-    public function tags()
+    public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'image_tags');
     }
