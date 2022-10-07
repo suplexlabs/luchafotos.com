@@ -50,29 +50,6 @@ class TagService
         return $tags;
     }
 
-    public function createMatchTag(Image $image): Collection
-    {
-        $tags = collect([]);
-        return $tags;
-
-        // check the title for wrestler name
-        if (stripos($image->title, ' vs. ')) {
-            $names = str($image->title)->explode(' vs. ');
-            $name = count($names) == 2 ? $names[0] : 0;
-
-            if ($name) {
-                $tag = Tag::updateOrCreate([
-                    'name' => $name,
-                    'code' => str($name)->slug(),
-                    'type' => Types::WRESTLER
-                ]);
-                $tag->push($tag);
-            }
-        }
-
-        return $tags;
-    }
-
     public function createWrestlerTag(Image $image): Collection
     {
         $tags = collect([]);
