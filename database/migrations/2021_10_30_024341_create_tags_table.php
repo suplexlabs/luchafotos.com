@@ -18,7 +18,7 @@ class CreateTagsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
-            $table->json('extras');
+            $table->json('extras')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
