@@ -6,9 +6,9 @@ use App\Models\Image;
 use App\Services\TagService;
 use Illuminate\Console\Command;
 
-class AddImageTags extends Command
+class SyncImageTags extends Command
 {
-    protected $signature = 'add:image-tags';
+    protected $signature = 'sync:image-tags';
     protected $description = 'Adds any missing tags';
 
     private TagService $tags;

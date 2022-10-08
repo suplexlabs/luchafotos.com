@@ -26,11 +26,10 @@ class TagService
     public function createCompanyTag(Image $image): Collection
     {
         $tags = collect([]);
-        $domain = $image->site->domain;
-
         $companies = Companies::cases();
+
         foreach ($companies as $company) {
-            if (stripos($domain, $company->value)) {
+            if ($image->site->isCompany($company)) {
                 $tag = Tag::updateOrCreate([
                     'name' => $company,
                     'code' => str($company->value)->slug(),
@@ -53,17 +52,42 @@ class TagService
     public function createWrestlerTag(Image $image): Collection
     {
         $tags = collect([]);
+        $image = Image::find(1833);
+        $site = $image->site;
         $title = $image->title;
+        $pattern = '/(vs\.?|&|:|-|–|,)/';
 
-        preg_match_all('/(.+?).(vs.|&|:|-|–)/', $title, $matches);
+        if ($site->isCompany(Companies::IMPACT) && str($image->url)->contains('vs')) {
+            $title = str(basename($image->url))
+                ->explode('.')
+                ->first();
+            $title = str($title)->match('/(_.+?_vs_.+?-)/')
+                ->snake()
+                ->replace('_', ' ')
+                ->squish();
+        } else {
+            // remove any parts we don't want
+            $title = trim(preg_replace('/(\(.+\)|\w+\.? \d{1,2}, \d{2,4})/', '', $title));
+        }
 
-        if (
-            !preg_match('/[,]/', $title)
-            && count($matches) >= 3
-            && count($matches[0]) > 1
-        ) {
-            $names = $matches[1];
-            array_pop($names);
+        // first breakup text based on top level characters
+        $parts = collect(preg_split('/(:|—|-|–|,)/', $title))
+            ->map(fn ($str) => trim($str));
+
+        if ($site->isCompany(Companies::WWE)) {
+            $parts = $parts->filter(function ($str) use ($site, $pattern) {
+                return preg_match_all($pattern, $str);
+            });
+        } else if ($parts->count() > 1 && $site->isCompany(Companies::IMPACT)) {
+            $parts = collect([$parts->first()]);
+        } else {
+            $parts = collect([]);
+        }
+
+        foreach ($parts as $part) {
+            $names = collect(preg_split($pattern, $part))
+                ->map(fn ($str) => trim($str))
+                ->filter(fn ($str) => strlen($str));
 
             foreach ($names as $name) {
                 $tag = Tag::updateOrCreate([
