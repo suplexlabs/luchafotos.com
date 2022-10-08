@@ -52,7 +52,6 @@ class TagService
     public function createWrestlerTag(Image $image): Collection
     {
         $tags = collect([]);
-        $image = Image::find(1833);
         $site = $image->site;
         $title = $image->title;
         $pattern = '/(vs\.?|&|:|-|–|,)/';
