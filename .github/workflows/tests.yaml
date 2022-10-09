@@ -67,7 +67,7 @@ jobs:
         DB_DATABASE: testing
         DB_PORT: 33306
         DB_USER: root
-        DB_PASSWORD: password
+        DB_PASSWORD: secret
       run: |
           php artisan key:generate
           php artisan migrate --force
