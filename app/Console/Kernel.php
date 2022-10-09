@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\SyncImageTags;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -38,6 +39,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('roach:run ImpactPhotosSpider')->weekly();
         $schedule->command('roach:run ImpactSpider')->daily();
         // $schedule->command('roach:run AEWPhotosSpider')->daily();
+
+        $schedule->command(SyncImageTags::class)->hourly();
 
         // backups
         // $schedule->command('backup:clean')->daily()->at('01:00')->timezone('America/New_York');

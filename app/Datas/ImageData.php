@@ -12,6 +12,7 @@ class ImageData extends Data
         public string $url,
         public string $domain,
         public string $pageUrl,
+        public ?string $pageTitle,
     ) {
     }
 }

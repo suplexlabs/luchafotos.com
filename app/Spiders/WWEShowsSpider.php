@@ -4,9 +4,8 @@ namespace App\Spiders;
 
 use App\Spiders\Traits\HasSource;
 use Generator;
-use App\Datas\ImageData;
 use RoachPHP\Http\Response;
-use Symfony\Component\DomCrawler\Image;
+use Symfony\Component\DomCrawler\Crawler;
 
 class WWEShowsSpider extends JavascriptSpider
 {
@@ -44,7 +43,12 @@ class WWEShowsSpider extends JavascriptSpider
 
         foreach ($images as $image) {
             $data = $this->getImageDataByImage($response, $image);
-            $this->dispatchJob($data, $source);
+
+            try {
+                $this->dispatchJob($data, $source);
+            } catch (\Exception $e) {
+                dd($data, $e);
+            }
 
             yield $this->item($data->toArray());
         }
@@ -53,13 +57,24 @@ class WWEShowsSpider extends JavascriptSpider
     public function parseResultPage(Response $response): Generator
     {
         $source = $this->getSource();
-        $images = $response->filter('.episode-feed-card--primary-img img')->images();
 
-        foreach ($images as $image) {
-            $data = $this->getImageDataByImage($response, $image);
-            $this->dispatchJob($data, $source);
+        /** @var \DOMElement[] $cards */
+        $response->filter('.episode-feed-cards .episode-feed-card')
+            ->each(function ($card) use ($source, $response) {
+                try {
+                    $image = $card->filter('.episode-feed-card--primary-img img')->image();
+                } catch (\Exception $e) {
+                    return;
+                }
 
-            yield $this->item($data->toArray());
-        }
+                $data = $this->getImageDataByImage($response, $image);
+
+                $data->title = $card->filter('.episode-feed-card--title')->text();
+                $data->pageTitle = $image->getNode()->getAttribute('title');
+
+                $this->dispatchJob($data, $source);
+            });
+
+        yield $this->item([]);
     }
 }

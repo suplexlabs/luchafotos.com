@@ -28,7 +28,7 @@ class WWEVideosSpider extends JavascriptSpider
     {
         $source = $this->getSource();
         $data = $this->getImageData($response);
-        
+
         if ($data) {
             $this->dispatchJob($data, $source);
         }
@@ -45,15 +45,14 @@ class WWEVideosSpider extends JavascriptSpider
         $title = $response->filter('meta[property="og:title"]')->attr('content');
 
         // get video artwork
-        try {   
+        try {
             $poster = $response->filter('.wwe-videobox--videoarea .vjs-poster')->first();
             preg_match('/url\("?(.+?)"?\)/', $poster->attr('style'), $matches);
             $url = $matches[1];
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return null;
         }
-        
+
         if (substr($url, 0, 1) == '/') {
             $url = 'https://' . $domain . $url;
         }

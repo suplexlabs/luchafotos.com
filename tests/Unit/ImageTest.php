@@ -1,10 +1,9 @@
 <?php
 
 use App\Datas\ImageData;
-use App\Jobs\SaveImage;
 use App\Models\Source;
+use App\Repositories\ImageRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
@@ -17,12 +16,13 @@ test('can save image', function () {
         'domain'  => 'www.test.com',
         'pageUrl' => 'https://www.example.com'
     ]);
+
     $source = Source::factory()->create();
 
-    // create job
-    $job = new SaveImage($data, $source);
-    $job->dispatchSync($data, $source);
+    /** @var ImageRepository $repository */
+    $repository = app(ImageRepository::class);
+    $image = $repository->createByData($source, $data);
 
     // asserts
-    $this->assertDatabaseHas('images', Arr::only($data->toArray(), ['url']));
+    $this->assertDatabaseHas('images', $image->only(['url']));
 });
