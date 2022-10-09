@@ -23,7 +23,7 @@ class SyncImageTags extends Command
         $this->tags = app(TagService::class);
 
         Image::doesntHave('tags')
-            ->chunk(300, function ($images) {
+            ->chunkById(300, function ($images) {
                 /** @var \App\Models\Image[] $images */
                 foreach ($images as $image) {
                     $tags = $this->tags->createTagsByImage($image);
