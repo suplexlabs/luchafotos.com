@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 9.34.0.
+ * Generated for Laravel 9.35.1.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -19186,7 +19186,19 @@
                     /**
          * 
          *
-         * @see \Filament\Testing\TestsPageActions::assertPageActionHeld()
+         * @see \Filament\Testing\TestsPageActions::assertPageActionHalted()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertPageActionHalted($name)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertPageActionHalted($name);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Testing\TestsPageActions::assertPageActionHalted()
          * @param string $name
          * @return static 
          * @static 
@@ -19637,7 +19649,19 @@
                     /**
          * 
          *
-         * @see \Filament\Tables\Testing\TestsActions::assertTableActionHeld()
+         * @see \Filament\Tables\Testing\TestsActions::assertTableActionHalted()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableActionHalted($name)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableActionHalted($name);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsActions::assertTableActionHalted()
          * @param string $name
          * @return static 
          * @static 
@@ -19893,7 +19917,19 @@
                     /**
          * 
          *
-         * @see \Filament\Tables\Testing\TestsBulkActions::assertTableBulkActionHeld()
+         * @see \Filament\Tables\Testing\TestsBulkActions::assertTableBulkActionHalted()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableBulkActionHalted($name)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableBulkActionHalted($name);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsBulkActions::assertTableBulkActionHalted()
          * @param string $name
          * @return static 
          * @static 
