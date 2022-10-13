@@ -20,7 +20,7 @@ export default class Home extends React.Component {
                 <form className="max-w-lg mx-auto p-2 mt-10">
                     <Search search={this.searchUpdate} term={this.state.term} />
                 </form>
-            </Layout >
+            </Layout>
         )
     }
 }
