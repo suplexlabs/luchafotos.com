@@ -2,11 +2,11 @@ import laravel from 'laravel-vite-plugin'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-    loader: { '.js': 'jsx' },
+    loader: { '.ts': 'tsx' },
     plugins: [
         laravel([
             'resources/css/app.css',
-            'resources/js/app.jsx',
+            'resources/js/app.tsx',
         ]),
     ],
 });

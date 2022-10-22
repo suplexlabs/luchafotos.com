@@ -20,7 +20,7 @@
         <meta property="og:site_name" content="Lucha Fotos" />
         <meta property="og:url" content="{{request()->url()}}" />
 
-        @vite(['resources/css/app.css', 'resources/js/app.jsx'])
+        @vite(['resources/css/app.css', 'resources/js/app.tsx'])
         @yield('extra_scripts')
     </head>
     <body class="bg-brand-dark text-white">

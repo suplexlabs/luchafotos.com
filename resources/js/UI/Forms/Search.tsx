@@ -1,7 +1,16 @@
-import React from "react";
 
-export default class Search extends React.Component {
-    constructor(props) {
+import React, { RefObject } from "react";
+
+interface SearchProps {
+    term: string,
+    search: Function
+}
+interface SearchState { }
+
+export default class Search extends React.Component<SearchProps, SearchState> {
+    public inputRef: RefObject<HTMLInputElement>;
+
+    constructor(props: SearchProps) {
         super(props)
 
         this.search = this.search.bind(this);
@@ -9,7 +18,7 @@ export default class Search extends React.Component {
     }
 
     componentDidMount() {
-        this.inputRef.current.focus();
+        this.inputRef.current?.focus();
     }
 
     render() {
@@ -29,7 +38,7 @@ export default class Search extends React.Component {
         );
     }
 
-    search(event) {
-        this.props.search(event.target.value)
+    search(event: React.ChangeEvent) {
+        this.props.search(event.target.nodeValue)
     }
 }

@@ -1,1 +1,0 @@
-import{R as e}from"./app.5b1a3911.js";import t from"./Layout.9d7a210f.js";function l({user:a}){return e.createElement(t,null,e.createElement("div",{className:"mx-auto max-w-2xl text-center mt-10"},e.createElement("p",{className:"mt-4 text-3xl mx-20"},"An upcoming search engine that helps you find the wrestling photos you love without the hassle.")))}export{l as default};
