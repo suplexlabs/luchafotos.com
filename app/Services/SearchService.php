@@ -11,19 +11,19 @@ class SearchService
     {
         $images = Image::search($term)
             ->take(100)
-            ->get();
-
-        $images->load([
-            'page' => function ($query) {
-                $query->select(['id', 'title', 'url']);
-            },
-            'site' => function ($query) {
-                $query->select(['id', 'domain']);
-            },
-            'tags' => function ($query) {
-                $query->select(['name', 'code', 'type']);
-            }
-        ]);
+            ->orderBy('publish_at')
+            ->get()
+            ->load([
+                'page' => function ($query) {
+                    $query->select(['id', 'title', 'url']);
+                },
+                'site' => function ($query) {
+                    $query->select(['id', 'domain']);
+                },
+                'tags' => function ($query) {
+                    $query->select(['name', 'code', 'type']);
+                }
+            ]);
 
         return $images;
     }
