@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -37,5 +38,22 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            if (config('app.env') == 'production') {
+                $data = $e->getMessage();
+            } else {
+                $data = [
+                    'error' => $e->getMessage(),
+                    'line' => $e->getFile() . '#' . $e->getLine(),
+                    ...$e->getTrace()
+                ];
+            }
+
+            return new JsonResponse($data ?: 500);
+        }
     }
 }
