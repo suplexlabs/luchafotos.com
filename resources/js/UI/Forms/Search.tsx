@@ -39,6 +39,6 @@ export default class Search extends React.Component<SearchProps, SearchState> {
     }
 
     search(event: React.ChangeEvent) {
-        this.props.search(event.target.nodeValue)
+        this.props.search(event.target.value)
     }
 }
