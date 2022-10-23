@@ -19,7 +19,7 @@ Route::name('search.')
     ->prefix('search')
     ->controller(SearchController::class)
     ->group(function () {
-        Route::get('/', 'index')->name('index');
+        Route::post('/', 'index')->name('index');
     });
 
 Route::middleware('auth:sanctum')

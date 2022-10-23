@@ -8,7 +8,7 @@ interface SearchProps {
 interface SearchState { }
 
 export default class Search extends React.Component<SearchProps, SearchState> {
-    public inputRef: RefObject<HTMLInputElement>;
+    inputRef: RefObject<HTMLInputElement>;
 
     constructor(props: SearchProps) {
         super(props)
