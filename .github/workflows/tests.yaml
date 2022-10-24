@@ -64,10 +64,8 @@ jobs:
     - name: Execute tests (Unit and Feature tests) via PestPHP
       run: |
           echo "DB_HOST=127.0.0.1" >> .env.testing
-          echo "DB_PORT=33306" >> .env.testing
           php artisan key:generate
           php artisan migrate --force
           vendor/bin/pest
       env:
         DB_HOST: 127.0.0.1
-        DB_PORT: 33306
