@@ -7,11 +7,7 @@ use Inertia\Inertia;
 
 class HomeController extends Controller
 {
-    public function __construct()
-    {
-    }
-
-    public function index(Request $request)
+    public function index()
     {
         return Inertia::render('Home', [
             'urls' => [
