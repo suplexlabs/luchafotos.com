@@ -4,7 +4,16 @@ import Search from "../UI/Forms/Search";
 import axios from "axios";
 
 interface HomeProps { urls: { search: string } }
-interface HomeState { term: string, results: Array<Object> }
+interface HomeState {
+    term: string,
+    results: Array<{
+        id: Number,
+        url: string,
+        title: string,
+        site: { domain: string },
+        page: { url: string, title: string }
+    }>
+}
 
 export default class Home extends React.Component<HomeProps, HomeState> {
     constructor(props: HomeProps) {
@@ -18,7 +27,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         this.setState({ term })
 
         axios.post(this.props.urls.search, { term })
-            .then(response => {
+            .then((response) => {
                 this.setState({ results: response.data.results || [] })
             })
 
@@ -36,8 +45,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                     {numResults ? <p className="text-lg text-center font-bold">We found {numResults} images</p> : null}
                     <ul className="flex flex-wrap">
                         {this.state.results.map(result => {
-                            return <li className="w-full md:w-1/4 p-2" key={result.id}>
-                                <a className="cursor-pointer" href={result.page.url} target="_blank">
+                            return <li className="w-full md:w-1/4 p-2" key={result.id.toString()}>
+                                < a className="cursor-pointer" href={result.page.url} target="_blank" >
                                     <img className="w-full" src={result.url} alt={result.title} width="300" />
                                 </a>
                                 <div>
@@ -47,8 +56,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                             </li>
                         })}
                     </ul>
-                </div>
-            </Layout>
+                </div >
+            </Layout >
         )
     }
 }
