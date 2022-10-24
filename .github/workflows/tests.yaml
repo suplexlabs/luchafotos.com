@@ -13,7 +13,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: secret
           MYSQL_DATABASE: testing
         ports:
-          - 33306:3306
+          - 3306:3306
         options: >-
           --health-cmd="mysqladmin ping"
           --health-interval=10s
@@ -63,11 +63,8 @@ jobs:
       run: php --version
     - name: Execute tests (Unit and Feature tests) via PestPHP
       run: |
-          echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV
-          echo "DB_DATABASE=testing" >> $GITHUB_ENV
-          echo "DB_PORT=33306" >> $GITHUB_ENV
-          echo "DB_USER=root" >> $GITHUB_ENV
-          echo "DB_PASSWORD=secret" >> $GITHUB_ENV
+          echo "DB_HOST=127.0.0.1" >> .env.testing
+          echo "DB_PORT=33306" >> .env.testing
           php artisan key:generate
           php artisan migrate --force
           vendor/bin/pest
