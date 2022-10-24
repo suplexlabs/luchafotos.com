@@ -62,14 +62,12 @@ jobs:
     - name: PHP Version
       run: php --version
     - name: Execute tests (Unit and Feature tests) via PestPHP
-      env:
-        DB_CONNECTION: mysql
-        DB_HOST: 127.0.0.1
-        DB_DATABASE: testing
-        DB_PORT: 33306
-        DB_USER: root
-        DB_PASSWORD: secret
       run: |
+          echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV
+          echo "DB_DATABASE=testing" >> $GITHUB_ENV
+          echo "DB_PORT=33306" >> $GITHUB_ENV
+          echo "DB_USER=root" >> $GITHUB_ENV
+          echo "DB_PASSWORD=secret" >> $GITHUB_ENV
           php artisan key:generate
           php artisan migrate --force
           vendor/bin/pest
