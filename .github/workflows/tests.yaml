@@ -68,3 +68,6 @@ jobs:
           php artisan key:generate
           php artisan migrate --force
           vendor/bin/pest
+      env:
+        DB_HOST: 127.0.0.1
+        DB_PORT: 33306
