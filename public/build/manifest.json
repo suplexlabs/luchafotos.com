@@ -1,0 +1,33 @@
+{
+  "resources/js/app.tsx": {
+    "file": "assets/app.fc4cb136.js",
+    "src": "resources/js/app.tsx",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/Pages/Home.tsx",
+      "resources/js/Pages/Layout.tsx"
+    ]
+  },
+  "resources/js/Pages/Home.tsx": {
+    "file": "assets/Home.03d03811.js",
+    "src": "resources/js/Pages/Home.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "resources/js/Pages/Layout.tsx"
+    ]
+  },
+  "resources/js/Pages/Layout.tsx": {
+    "file": "assets/Layout.10246cf6.js",
+    "src": "resources/js/Pages/Layout.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx"
+    ]
+  },
+  "resources/css/app.css": {
+    "file": "assets/app.8e108fee.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  }
+}
