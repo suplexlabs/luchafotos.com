@@ -5,9 +5,9 @@ import { InertiaProgress } from '@inertiajs/progress'
 
 InertiaProgress.init()
 
-function resolvePageComponent(name, pages) {
+function resolvePageComponent(name: string, pages: any) {
     for (const path in pages) {
-        if (path.endsWith(`${name.replace('.', '/')}.jsx`)) {
+        if (path.endsWith(`${name.replace('.', '/')}.tsx`)) {
             return typeof pages[path] === 'function'
                 ? pages[path]()
                 : pages[path]
@@ -18,11 +18,11 @@ function resolvePageComponent(name, pages) {
 }
 
 createInertiaApp({
-    resolve: name => resolvePageComponent(name, import.meta.glob('./Pages/**/*.jsx')),
+    resolve: name => resolvePageComponent(name, import.meta.glob('./Pages/**/*.tsx')),
     setup({ el, App, props }) {
         render(<App {...props} />, el)
-    },
-    output: {
-        chunkFilename: 'js/[name].js?id=[chunkhash]',
     }
 })
+// output: {
+//     chunkFilename: 'js/[name].js?id=[chunkhash]',
+// }

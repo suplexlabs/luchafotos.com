@@ -20,16 +20,14 @@
         <meta property="og:site_name" content="Lucha Fotos" />
         <meta property="og:url" content="{{request()->url()}}" />
 
-        @vite(['resources/css/app.css', 'resources/js/app.jsx'])
+        @vite(['resources/css/app.css', 'resources/js/app.tsx'])
         @yield('extra_scripts')
     </head>
     <body class="bg-brand-dark text-white">
         <header class="mx-auto max-w-2xl text-center">
             <img class="mx-auto" src="/img/luchafotos-logo.png" alt="The Lucha Fotos logo" width="400" />
         </header>
-        <main class="h-40">
-            @yield('content')
-        </main>
+        @yield('content')
         <footer class="py-10 px-4 font-bold mt-20 text-white text-center">
             &copy; 2022 Lucha Fotos. A <a class="underline" target="_blank" href="https://www.wrestlefive.com">Wrestle Five</a> site.
         </footer>
