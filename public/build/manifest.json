@@ -1,6 +1,6 @@
 {
   "resources/js/app.tsx": {
-    "file": "assets/app.fc4cb136.js",
+    "file": "assets/app.eb3b6718.js",
     "src": "resources/js/app.tsx",
     "isEntry": true,
     "dynamicImports": [
@@ -9,7 +9,7 @@
     ]
   },
   "resources/js/Pages/Home.tsx": {
-    "file": "assets/Home.03d03811.js",
+    "file": "assets/Home.69aaf2ce.js",
     "src": "resources/js/Pages/Home.tsx",
     "isDynamicEntry": true,
     "imports": [
@@ -18,7 +18,7 @@
     ]
   },
   "resources/js/Pages/Layout.tsx": {
-    "file": "assets/Layout.10246cf6.js",
+    "file": "assets/Layout.dfb82f01.js",
     "src": "resources/js/Pages/Layout.tsx",
     "isDynamicEntry": true,
     "imports": [
@@ -26,7 +26,7 @@
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app.8e108fee.css",
+    "file": "assets/app.827d1c40.css",
     "src": "resources/css/app.css",
     "isEntry": true
   }
