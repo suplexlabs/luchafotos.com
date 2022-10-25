@@ -26,7 +26,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
             <div className="flex flex-col gap-4 text-center text-2xl">
                 <label htmlFor="search">I want to find an image of...</label>
                 <input
-                    className="p-4 text-stone-600 focus:outline focus:outline-yellow-400 rounded-none"
+                    className="p-4 text-stone-600 focus:outline focus:outline-yellow-400 appearance-none"
                     id="search"
                     ref={this.inputRef}
                     type="search"
