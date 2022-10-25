@@ -1,4 +1,3 @@
-
 import React, { RefObject } from "react";
 
 interface SearchProps {
