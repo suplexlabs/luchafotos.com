@@ -11,7 +11,8 @@ class HomeController extends Controller
     {
         return Inertia::render('Home', [
             'urls' => [
-                'search' => route('search.index')
+                'search' => route('search.index'),
+                'tags' => route('tags.index')
             ]
         ]);
     }

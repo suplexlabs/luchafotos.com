@@ -1,9 +1,11 @@
 import React from 'react'
+import axios from "axios";
 import Layout from './Layout'
 import Search from "../UI/Forms/Search";
-import axios from "axios";
+import Autocomplete from '../UI/Forms/Autocomplete';
 
-interface HomeProps { urls: { search: string } }
+
+interface HomeProps { urls: { search: string, tags: string } }
 interface HomeState {
     term: string,
     results: Array<{
@@ -39,7 +41,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         return (
             <Layout>
                 <form className="max-w-lg mx-auto p-2 mt-10 mb-4">
-                    <Search search={this.searchUpdate} term={this.state.term} />
+                    <Search searchHandler={this.searchUpdate} term={this.state.term} />
+                    <Autocomplete term={this.state.term} endpoint={this.props.urls.tags} />
                 </form>
                 <div>
                     {numResults ? <p className="text-lg text-center font-bold">We found {numResults} images</p> : null}
