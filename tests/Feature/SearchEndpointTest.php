@@ -7,7 +7,7 @@ use App\Models\Source;
 
 test('has endpoint', function () {
     /** @var \Illuminate\Http\Response $response */
-    $response = $this->post('/api/search', ['term' => 'test']);
+    $response = $this->post(route('search.index'), ['term' => 'test']);
 
     $response->assertStatus(200);
     $this->assertEmpty($response->exception);
@@ -23,7 +23,7 @@ test('has correct results', function () {
     \DB::commit();
 
     /** @var \Illuminate\Http\Response $response */
-    $response = $this->post('/api/search', ['term' => 'test']);
+    $response = $this->post(route('search.index'), ['term' => 'test']);
     $json = $response->json();
 
     expect($json)->toBeArray();

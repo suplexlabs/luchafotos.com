@@ -1,14 +1,10 @@
 <?php
 
-use App\Models\Image;
-use App\Models\Page;
-use App\Models\Site;
-use App\Models\Source;
 use App\Models\Tag;
 
 test('has endpoint', function () {
     /** @var \Illuminate\Http\Response $response */
-    $response = $this->post('/api/tags/similar', ['term' => 'test']);
+    $response = $this->post(route('tags.similar'), ['term' => 'test']);
 
     $response->assertStatus(200);
     $this->assertEmpty($response->exception);
@@ -21,7 +17,7 @@ test('has correct results', function () {
     \DB::commit();
 
     /** @var \Illuminate\Http\Response $response */
-    $response = $this->post('/api/tags/similar', ['term' => $tag->name]);
+    $response = $this->post(route('tags.similar'), ['term' => $tag->name]);
     $json = $response->json();
 
     expect($json)->toBeArray();
