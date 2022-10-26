@@ -15,7 +15,7 @@ class TagsController extends Controller
 
     public function similar(TagRequest $request)
     {
-        $results = $this->repository->getSimilar($request->get('term'));
+        $results = $this->repository->getSimilar($request->get('tag'));
 
         return response()->json([
             'results' => $results

@@ -17,7 +17,7 @@ class ImageFactory extends Factory
     public function definition()
     {
         return [
-            'title' => 'test',
+            'title' => $this->faker->name,
             'url' => 'https://www.example.com',
             'height' => 100,
             'width' => 100,

@@ -2,9 +2,11 @@
 
 use App\Models\Tag;
 
+use function Pest\Laravel\get;
+
 test('has endpoint', function () {
     /** @var \Illuminate\Http\Response $response */
-    $response = $this->post(route('tags.similar'), ['term' => 'test']);
+    $response = get(route('tags.similar', ['tag' => 'test']));
 
     $response->assertStatus(200);
     $this->assertEmpty($response->exception);
@@ -17,8 +19,9 @@ test('has correct results', function () {
     \DB::commit();
 
     /** @var \Illuminate\Http\Response $response */
-    $response = $this->post(route('tags.similar'), ['term' => $tag->name]);
+    $response = get(route('tags.similar', ['tag' => $tag->name]));
     $json = $response->json();
+
 
     expect($json)->toBeArray();
 

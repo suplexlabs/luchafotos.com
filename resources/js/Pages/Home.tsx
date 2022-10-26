@@ -4,10 +4,11 @@ import Layout from './Layout'
 import Search from "../UI/Forms/Search";
 import Autocomplete from '../UI/Forms/Autocomplete';
 
-
 interface HomeProps { urls: { search: string, tags: string } }
 interface HomeState {
     term: string,
+    searchStartTime?: Number,
+    searchEndTime?: Number,
     results: Array<{
         id: Number,
         url: string,
@@ -22,17 +23,24 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         super(props)
 
         this.searchUpdate = this.searchUpdate.bind(this)
-        this.state = { term: '', results: [] }
+        this.state = { term: '', results: [], }
     }
 
     searchUpdate(term: string) {
-        this.setState({ term })
+        this.setState({ term, searchStartTime: Date.now() })
 
-        axios.post(this.props.urls.search, { term })
+        axios.get(this.props.urls.search, { params: { term } })
             .then((response) => {
-                this.setState({ results: response.data.results || [] })
+                this.setState({
+                    results: response.data.results || [],
+                    searchEndTime: Date.now()
+                })
             })
+    }
 
+    formatSearchLoadTime() {
+        const milliDiff = this.state.searchEndTime - this.state.searchStartTime;
+        return (milliDiff / 1000).toFixed(2);
     }
 
     render() {
@@ -45,7 +53,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                     <Autocomplete term={this.state.term} endpoint={this.props.urls.tags} />
                 </form>
                 <div>
-                    {numResults ? <p className="text-lg text-center font-bold">We found {numResults} images</p> : null}
+                    {numResults ? <p className="text-lg text-center font-bold">We found {numResults} images in {this.formatSearchLoadTime()} secs.</p> : null}
                     <ul className="flex flex-wrap">
                         {this.state.results.map(result => {
                             return <li className="w-full md:w-1/4 p-2" key={result.id.toString()}>

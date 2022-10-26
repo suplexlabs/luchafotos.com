@@ -5,9 +5,11 @@ use App\Models\Page;
 use App\Models\Site;
 use App\Models\Source;
 
+use function Pest\Laravel\get;
+
 test('has endpoint', function () {
     /** @var \Illuminate\Http\Response $response */
-    $response = $this->post(route('search.index'), ['term' => 'test']);
+    $response = get(route('search.index', ['term' => 'test']));
 
     $response->assertStatus(200);
     $this->assertEmpty($response->exception);
@@ -23,7 +25,7 @@ test('has correct results', function () {
     \DB::commit();
 
     /** @var \Illuminate\Http\Response $response */
-    $response = $this->post(route('search.index'), ['term' => 'test']);
+    $response = get(route('search.index', ['term' => $image->title]));
     $json = $response->json();
 
     expect($json)->toBeArray();

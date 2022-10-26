@@ -13,9 +13,9 @@ class TagRepository extends BaseRepository
         return Tag::class;
     }
 
-    public function getSimilar($term): Collection
+    public function getSimilar($name): Collection
     {
-        return $this->model->search($term)
+        return $this->model->search($name)
             ->take(10)
             ->orderBy('name')
             ->get();

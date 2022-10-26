@@ -20,7 +20,7 @@ Route::name('search.')
     ->prefix('search')
     ->controller(SearchController::class)
     ->group(function () {
-        Route::post('/', 'index')->name('index');
+        Route::get('/', 'index')->name('index');
     });
 
 Route::name('tags.')
