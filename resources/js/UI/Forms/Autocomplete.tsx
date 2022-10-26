@@ -18,7 +18,7 @@ export default class Autocomplete extends React.Component<AutocompleteProps, Aut
     }
 
     componentDidUpdate(prevProps: Readonly<AutocompleteProps>, prevState: Readonly<AutocompleteState>, snapshot?: any): void {
-        axios.post(this.props.endpoint).then(response => {
+        axios.get(this.props.endpoint).then(response => {
             this.setState({ results: response.data.results });
         })
     }

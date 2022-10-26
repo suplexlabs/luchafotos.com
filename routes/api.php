@@ -27,7 +27,7 @@ Route::name('tags.')
     ->prefix('tags')
     ->controller(TagsController::class)
     ->group(function () {
-        Route::post('/', 'index')->name('index');
+        Route::get('/similar', 'similar')->name('similar');
     });
 
 Route::middleware('auth:sanctum')

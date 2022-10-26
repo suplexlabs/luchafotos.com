@@ -13,7 +13,7 @@ class TagsController extends Controller
     ) {
     }
 
-    public function index(TagRequest $request)
+    public function similar(TagRequest $request)
     {
         $results = $this->repository->getSimilar($request->get('term'));
 
