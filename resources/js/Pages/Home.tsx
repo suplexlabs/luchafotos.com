@@ -7,10 +7,10 @@ import Autocomplete from '../UI/Forms/Autocomplete';
 interface HomeProps { urls: { search: string, tags: string } }
 interface HomeState {
     term: string,
-    searchStartTime?: Number,
-    searchEndTime?: Number,
+    searchStartTime?: number,
+    searchEndTime?: number,
     results: Array<{
-        id: Number,
+        id: number,
         url: string,
         title: string,
         site: { domain: string },
@@ -23,7 +23,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         super(props)
 
         this.searchUpdate = this.searchUpdate.bind(this)
-        this.state = { term: '', results: [], }
+        this.state = { term: '', results: [] }
     }
 
     searchUpdate(term: string) {
@@ -38,8 +38,11 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             })
     }
 
-    formatSearchLoadTime() {
-        const milliDiff = this.state.searchEndTime - this.state.searchStartTime;
+    formatSearchLoadTime(): string {
+        const startTime = this.state.searchStartTime || 0;
+        const endTime = this.state.searchEndTime || 0;
+
+        const milliDiff = endTime - startTime;
         return (milliDiff / 1000).toFixed(2);
     }
 
