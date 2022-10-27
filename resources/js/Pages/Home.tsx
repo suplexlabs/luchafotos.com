@@ -4,7 +4,7 @@ import Layout from './Layout'
 import Search from "../UI/Forms/Search";
 import Autocomplete from '../UI/Forms/Autocomplete';
 
-interface HomeProps { urls: { search: string, tags: string } }
+interface HomeProps { urls: { search: string, tagsSimilar: string } }
 interface HomeState {
     term: string,
     searchStartTime?: number,
@@ -53,7 +53,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             <Layout>
                 <form className="max-w-lg mx-auto p-2 mt-10 mb-4">
                     <Search searchHandler={this.searchUpdate} term={this.state.term} />
-                    <Autocomplete term={this.state.term} endpoint={this.props.urls.tags} />
+                    <Autocomplete selectTagHandler={this.searchUpdate} tag={this.state.term} endpoint={this.props.urls.tagsSimilar} />
                 </form>
                 <div>
                     {numResults ? <p className="text-lg text-center font-bold">We found {numResults} images in {this.formatSearchLoadTime()} secs.</p> : null}

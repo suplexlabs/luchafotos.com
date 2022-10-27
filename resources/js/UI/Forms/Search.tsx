@@ -33,6 +33,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
                         placeholder="Seth Rollins"
                         value={this.props.term}
                         onChange={this.search}
+                        autoComplete="false"
                     />
                 </div>
             </div>
