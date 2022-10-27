@@ -47,9 +47,9 @@ class Handler extends ExceptionHandler
                 $data = $e->getMessage();
             } else {
                 $data = [
-                    'error' => $e->getMessage(),
-                    'line' => $e->getFile() . '#' . $e->getLine(),
-                    ...$e->getTrace()
+                    'error'      => $e->getMessage(),
+                    'line'       => $e->getFile() . '#' . $e->getLine(),
+                    'stacktrace' => [...$e->getTrace()],
                 ];
             }
 
