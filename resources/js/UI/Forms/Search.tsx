@@ -41,6 +41,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
     }
 
     search(event: React.ChangeEvent) {
-        this.props.searchHandler(event.target.value)
+        const target = event.target as HTMLInputElement
+        this.props.searchHandler(target.value)
     }
 }

@@ -27,12 +27,14 @@ export default class Autocomplete extends React.Component<AutocompleteProps, Aut
         const tag = this.props.tag
         axios.get(this.props.endpoint, { params: { tag } })
             .then(response => {
+                console.log(response.data.results)
                 this.setState({ results: response.data.results || [] });
             })
     }
 
-    selectTag(event: React.SyntheticEvent) {
-        this.props.selectTagHandler(event.target.innerHTML)
+    selectTag(event: React.MouseEvent) {
+        const target = event.target as HTMLButtonElement
+        this.props.selectTagHandler(target.innerHTML)
     }
 
     render() {
