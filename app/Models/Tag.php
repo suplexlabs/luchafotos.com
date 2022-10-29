@@ -19,9 +19,10 @@ class Tag extends Model
         'extras' => 'array'
     ];
 
-    #[SearchUsingFullText(['title'])]
     public function toSearchableArray()
     {
-        return $this->toArray();
+        return [
+            'name' => $this->name
+        ];
     }
 }

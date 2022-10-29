@@ -1,6 +1,7 @@
 <?php
 
 use App\Datas\ImageData;
+use App\Models\Site;
 use App\Models\Source;
 use App\Repositories\ImageRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Api\TagsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +20,14 @@ Route::name('search.')
     ->prefix('search')
     ->controller(SearchController::class)
     ->group(function () {
-        Route::post('/', 'index')->name('index');
+        Route::get('/', 'index')->name('index');
+    });
+
+Route::name('tags.')
+    ->prefix('tags')
+    ->controller(TagsController::class)
+    ->group(function () {
+        Route::get('/similar', 'similar')->name('similar');
     });
 
 Route::middleware('auth:sanctum')
