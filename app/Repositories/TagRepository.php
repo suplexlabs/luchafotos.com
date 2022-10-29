@@ -19,9 +19,23 @@ class TagRepository extends BaseRepository
             return collect();
         }
 
-        return $this->model->search($name)
+        $tags = $this->model->search($name)
             ->take(10)
-            ->orderBy('name', 'desc')
-            ->get();
+            ->get()
+            ->sortBy(function (Tag $tag) use ($name) {
+                $tagName = $tag->name;
+                $indexFound = stripos($tagName, $name);
+                $indexEnd = $indexFound + strlen($name);
+                $nextChar = $tagName[$indexEnd++];
+
+                if ($nextChar != ' ') {
+                    $indexFound += 10;
+                }
+
+                return $indexFound;
+            })
+            ->values();
+
+        return $tags;
     }
 }
