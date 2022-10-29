@@ -21,11 +21,11 @@ export default class Autocomplete extends React.Component<AutocompleteProps, Aut
     }
 
     render() {
-        return <ul className="bg-white">
+        return <ul className="bg-white mt-4">
             {
                 this.props.results.map(result => {
-                    return <li className="p-2 text-stone-400 hover:bg-slate-100" key={result.name}>
-                        <button type="button" onClick={this.selectTag}>{result.name}</button>
+                    return <li className="p-2 text-stone-400 hover:bg-slate-100 border-b border-dotted border-slate-300" key={result.name}>
+                        <button className="block w-full text-left cursor-pointer" type="button" onClick={this.selectTag}>{result.name}</button>
                     </li>
                 })
             }

@@ -24,10 +24,11 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         super(props)
 
         this.searchUpdate = this.searchUpdate.bind(this)
+        this.autocompleteSelect = this.autocompleteSelect.bind(this)
         this.state = { term: '', searchResults: [], autocompleteResults: [] }
     }
 
-    searchUpdate(term: string) {
+    searchUpdate(term: string, clearAutocomplete: boolean = false) {
         this.setState({ term, searchStartTime: Date.now() })
 
         axios.get(this.props.urls.search, { params: { term } })
@@ -38,10 +39,19 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                 })
             })
 
-        axios.get(this.props.urls.tagsSimilar, { params: { tag: term } })
-            .then(response => {
-                this.setState({ autocompleteResults: response.data.results || [] });
-            })
+        if (clearAutocomplete) {
+            this.setState({ autocompleteResults: [] })
+        }
+        else {
+            axios.get(this.props.urls.tagsSimilar, { params: { tag: term } })
+                .then(response => {
+                    this.setState({ autocompleteResults: response.data.results || [] });
+                })
+        }
+    }
+
+    autocompleteSelect(term: string) {
+        this.searchUpdate(term, true)
     }
 
     formatSearchLoadTime(): string {
@@ -59,7 +69,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             <Layout>
                 <form className="max-w-lg mx-auto p-2 mt-10 mb-4">
                     <Search searchHandler={this.searchUpdate} term={this.state.term} />
-                    <Autocomplete selectTagHandler={this.searchUpdate} tag={this.state.term} results={this.state.autocompleteResults} />
+                    <Autocomplete selectTagHandler={this.autocompleteSelect} tag={this.state.term} results={this.state.autocompleteResults} />
                 </form>
                 <div>
                     {numResults ? <p className="text-lg text-center font-bold">We found {numResults} images in {this.formatSearchLoadTime()} secs.</p> : null}
