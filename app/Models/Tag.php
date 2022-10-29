@@ -19,7 +19,6 @@ class Tag extends Model
         'extras' => 'array'
     ];
 
-    #[SearchUsingFullText(['name'])]
     public function toSearchableArray()
     {
         return [

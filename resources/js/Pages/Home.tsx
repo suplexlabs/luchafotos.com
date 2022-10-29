@@ -9,7 +9,8 @@ interface HomeState {
     term: string,
     searchStartTime?: number,
     searchEndTime?: number,
-    results: Array<{
+    autocompleteResults: Array<{ name: string }>,
+    searchResults: Array<{
         id: number,
         url: string,
         title: string,
@@ -23,7 +24,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         super(props)
 
         this.searchUpdate = this.searchUpdate.bind(this)
-        this.state = { term: '', results: [] }
+        this.state = { term: '', searchResults: [], autocompleteResults: [] }
     }
 
     searchUpdate(term: string) {
@@ -32,9 +33,14 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         axios.get(this.props.urls.search, { params: { term } })
             .then((response) => {
                 this.setState({
-                    results: response.data.results || [],
+                    searchResults: response.data.results || [],
                     searchEndTime: Date.now()
                 })
+            })
+
+        axios.get(this.props.urls.tagsSimilar, { params: { tag: term } })
+            .then(response => {
+                this.setState({ autocompleteResults: response.data.results || [] });
             })
     }
 
@@ -47,18 +53,18 @@ export default class Home extends React.Component<HomeProps, HomeState> {
     }
 
     render() {
-        const numResults = this.state.results.length;
+        const numResults = this.state.searchResults.length;
 
         return (
             <Layout>
                 <form className="max-w-lg mx-auto p-2 mt-10 mb-4">
                     <Search searchHandler={this.searchUpdate} term={this.state.term} />
-                    <Autocomplete selectTagHandler={this.searchUpdate} tag={this.state.term} endpoint={this.props.urls.tagsSimilar} />
+                    <Autocomplete selectTagHandler={this.searchUpdate} tag={this.state.term} results={this.state.autocompleteResults} />
                 </form>
                 <div>
                     {numResults ? <p className="text-lg text-center font-bold">We found {numResults} images in {this.formatSearchLoadTime()} secs.</p> : null}
                     <ul className="flex flex-wrap">
-                        {this.state.results.map(result => {
+                        {this.state.searchResults.map(result => {
                             return <li className="w-full md:w-1/4 p-2" key={result.id.toString()}>
                                 < a className="cursor-pointer" href={result.page.url} target="_blank" >
                                     <img className="w-full" src={result.url} alt={result.title} width="300" />

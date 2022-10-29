@@ -15,9 +15,13 @@ class TagRepository extends BaseRepository
 
     public function getSimilar($name): Collection
     {
+        if (empty($name)) {
+            return collect();
+        }
+
         return $this->model->search($name)
             ->take(10)
-            ->orderBy('name')
+            ->orderBy('name', 'desc')
             ->get();
     }
 }
