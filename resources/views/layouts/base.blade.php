@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Lucha Fotos</title>
+        <title>Lucha Fotos - An image search for wrestling</title>
         <meta charset="UTF-8" />
+        <meta name="description" content="An search engine that helps you find the wrestling photos you love without the hassle.">
+        <meta name="author" content="Rich Perez">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <link rel="icon" type="image/png" href="/favicon.png" />
@@ -26,10 +28,11 @@
     <body class="bg-brand-dark text-white">
         <header class="mx-auto max-w-2xl text-center">
             <img class="mx-auto" src="/img/luchafotos-logo.png" alt="The Lucha Fotos logo" width="400" />
+            <p>An image search for wrestling</p>
         </header>
         @yield('content')
         <footer class="py-10 px-4 font-bold mt-20 text-white text-center">
-            &copy; 2022 Lucha Fotos. A <a class="underline" target="_blank" href="https://www.wrestlefive.com">Wrestle Five</a> site.
+            &copy; 2022 Lucha Fotos. A <a class="underline" target="_blank" href="https://www.wrestlefive.com">Wrestle Five</a> site. Built by <a class="underline" target="_blank" href="https://mobile.twitter.com/imperez">Rich Perez</a>.
         </footer>
 
         @if(config('app.env') == 'production')
