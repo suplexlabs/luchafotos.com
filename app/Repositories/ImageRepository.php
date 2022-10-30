@@ -8,6 +8,7 @@ use App\Models\Page;
 use App\Models\Site;
 use App\Models\Source;
 use Carbon\Carbon;
+use Exception;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\Facades\Image as FacadesImage;
 
@@ -34,7 +35,14 @@ class ImageRepository extends BaseRepository
         $etag = data_get($headers, 'ETag', md5($url));
         $etag = str($etag)->replace('"', '');
 
-        $imageExists = $source->images()->where('etag', $etag)->exists();
+        $md5 = md5_file($url);
+
+        $imageExists = $source->images()
+            ->where(function ($query) use ($etag, $md5) {
+                $query->where('etag', $etag)
+                    ->orWhere('md5', $md5);
+            })
+            ->exists();
         if ($imageExists) {
             return null;
         }
@@ -53,6 +61,7 @@ class ImageRepository extends BaseRepository
             'url'          => $url,
             'title'        => $data->title,
             'etag'         => $etag,
+            'md5'          => $md5,
             'height'       => $img->height(),
             'width'        => $img->width(),
             'published_at' => $publishDate
