@@ -27,22 +27,18 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Media[] $media
- * @property-read int|null $media_count
- * @property-read \App\Models\Site|null $site
- * @property-read \App\Models\Source|null $source
+ * @property-read \App\Models\Page $page
+ * @property-read \App\Models\Site $site
+ * @property-read \App\Models\Source $source
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
  * @property-read int|null $tags_count
- * @method static \Plank\Mediable\MediableCollection|static[] all($columns = ['*'])
- * @method static \Plank\Mediable\MediableCollection|static[] get($columns = ['*'])
+ * @method static \Database\Factories\ImageFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Image newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Image newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Image query()
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereEtag($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereHasMedia($tags = [], bool $matchAll = false)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereHasMediaMatchAll(array $tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereHeight($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image wherePageId($value)
@@ -53,62 +49,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereWidth($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image withMedia($tags = [], bool $matchAll = false, bool $withVariants = false)
- * @method static \Illuminate\Database\Eloquent\Builder|Image withMediaAndVariants($tags = [], bool $matchAll = false)
- * @method static \Illuminate\Database\Eloquent\Builder|Image withMediaAndVariantsMatchAll($tags = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Image withMediaMatchAll(bool $tags = [], bool $withVariants = false)
  */
 	class Image extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\Media
- *
- * @property int $id
- * @property string $disk
- * @property string $directory
- * @property string $filename
- * @property string $extension
- * @property string $mime_type
- * @property string $aggregate_type
- * @property int $size
- * @property string|null $variant_name
- * @property int|null $original_media_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int|null $height
- * @property int|null $width
- * @property-read string $basename
- * @property-read Media|null $originalMedia
- * @property-read \Illuminate\Database\Eloquent\Collection|Media[] $variants
- * @property-read int|null $variants_count
- * @method static \Illuminate\Database\Eloquent\Builder|Media forPathOnDisk(string $disk, string $path)
- * @method static \Illuminate\Database\Eloquent\Builder|Media inDirectory(string $disk, string $directory, bool $recursive = false)
- * @method static \Illuminate\Database\Eloquent\Builder|Media inOrUnderDirectory(string $disk, string $directory)
- * @method static \Illuminate\Database\Eloquent\Builder|Media newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Media newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Media query()
- * @method static \Illuminate\Database\Eloquent\Builder|Media unordered()
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereAggregateType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereBasename(string $basename)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereDirectory($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereDisk($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereExtension($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereFilename($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereHeight($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereIsOriginal()
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereIsVariant(?string $variant_name = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereMimeType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereOriginalMediaId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereSize($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereVariantName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereWidth($value)
- */
-	class Media extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -122,6 +64,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Database\Factories\PageFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Page newQuery()
  * @method static \Illuminate\Database\Query\Builder|Page onlyTrashed()
@@ -149,6 +92,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Database\Factories\SiteFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Site newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Site newQuery()
  * @method static \Illuminate\Database\Query\Builder|Site onlyTrashed()
@@ -177,8 +121,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Plank\Mediable\MediableCollection|\App\Models\Image[] $images
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
  * @property-read int|null $images_count
+ * @method static \Database\Factories\SourceFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Source newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Source newQuery()
  * @method static \Illuminate\Database\Query\Builder|Source onlyTrashed()
@@ -204,10 +149,12 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string $code
- * @property array $extras
+ * @property string $type
+ * @property array|null $extras
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Database\Factories\TagFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newQuery()
  * @method static \Illuminate\Database\Query\Builder|Tag onlyTrashed()
@@ -218,6 +165,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereExtras($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Tag withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Tag withoutTrashed()
@@ -265,6 +213,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|User withTrashed()
  * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
  */
-	class User extends \Eloquent implements \Filament\Models\Contracts\FilamentUser {}
+	class User extends \Eloquent {}
 }
 
