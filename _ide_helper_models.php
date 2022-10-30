@@ -27,6 +27,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
+ * @property string|null $md5
  * @property-read \App\Models\Page $page
  * @property-read \App\Models\Site $site
  * @property-read \App\Models\Source $source
@@ -41,6 +42,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereEtag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereHeight($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereMd5($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image wherePageId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image wherePublishedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereSiteId($value)
