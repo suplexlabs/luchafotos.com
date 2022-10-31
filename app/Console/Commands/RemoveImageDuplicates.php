@@ -26,5 +26,18 @@ class RemoveImageDuplicates extends Command
                         ->forceDelete();
                 }
             });
+
+        $wweVideosPageId = 1;
+        DB::table('images')
+            ->select([DB::raw('MIN(id) AS id'), 'page_id'])
+            ->where('source_id', $wweVideosPageId)
+            ->groupBy('page_id')
+            ->having(DB::raw('COUNT(id)'), '>', 1)
+            ->orderBy('id')
+            ->chunk(500, function ($records) {
+                foreach ($records as $record) {
+                    Image::where('id', $record->id)->forceDelete();
+                }
+            });
     }
 }
