@@ -54,6 +54,12 @@ class ImageRepository extends BaseRepository
             'title'   => $data->pageTitle ?: $data->title
         ]);
 
+        // make sure videos only have one image
+        $wweVideosPageId = 1;
+        if ($source->id == $wweVideosPageId && $page->images()->count() > 0) {
+            $page->images()->forceDelete();
+        }
+
         return Image::create([
             'source_id'    => $source->id,
             'site_id'      => $site->id,
