@@ -3,6 +3,7 @@ import axios from "axios";
 import Layout from './Layout'
 import Search from "../UI/Forms/Search";
 import Autocomplete from '../UI/Forms/Autocomplete';
+import Results from '../UI/Results';
 
 interface HomeProps { urls: { search: string, tagsSimilar: string } }
 interface HomeState {
@@ -73,21 +74,9 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                 </form>
                 <div>
                     {numResults ? <p className="text-lg text-center font-bold">We found {numResults} images in {this.formatSearchLoadTime()} secs.</p> : null}
-                    <ul className="flex flex-wrap">
-                        {this.state.searchResults.map(result => {
-                            return <li className="w-full md:w-1/4 p-2" key={result.id.toString()}>
-                                < a className="cursor-pointer" href={result.page.url} target="_blank" >
-                                    <img className="w-full" src={result.url} alt={result.title} width="300" />
-                                </a>
-                                <div>
-                                    <a className="block underline cursor-pointer hover:no-underline" href={result.page.url} target="_blank">{result.page.title}</a>
-                                    <a className="block underline cursor-pointer hover:no-underline" href={'https://' + result.site.domain} target="_blank">{result.site.domain}</a>
-                                </div>
-                            </li>
-                        })}
-                    </ul>
-                </div >
-            </Layout >
+                    <Results results={this.state.searchResults} />
+                </div>
+            </Layout>
         )
     }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Lucha Fotos - An image search for wrestling</title>
+        <title>{{pageTitle()}}</title>
         <meta charset="UTF-8" />
         <meta name="description" content="An search engine that helps you find the wrestling photos you love without the hassle.">
         <meta name="author" content="Rich Perez">
@@ -26,8 +26,10 @@
         @yield('extra_scripts')
     </head>
     <body class="bg-brand-dark text-white">
-        <header class="mx-auto max-w-2xl text-center">
-            <img class="mx-auto" src="/img/luchafotos-logo.png" alt="The Lucha Fotos logo" width="400" />
+        <header class="mx-auto max-w-2xl text-center mb-8">
+            <a href="/">
+                <img class="mx-auto" src="/img/luchafotos-logo.png" alt="The Lucha Fotos logo" width="400" />
+            </a>
             <p>An image search for wrestling</p>
         </header>
         @yield('content')
