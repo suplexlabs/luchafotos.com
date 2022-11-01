@@ -55,5 +55,7 @@ class Handler extends ExceptionHandler
 
             return new JsonResponse($data ?: 500);
         }
+
+        return parent::render($request, $e);
     }
 }

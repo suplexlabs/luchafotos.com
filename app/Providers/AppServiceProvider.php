@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Source;
-use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Model::preventLazyLoading();
+        Model::preventAccessingMissingAttributes();
     }
 }

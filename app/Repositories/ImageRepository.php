@@ -7,8 +7,11 @@ use App\Models\Image;
 use App\Models\Page;
 use App\Models\Site;
 use App\Models\Source;
+use App\Models\Tag;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\Facades\Image as FacadesImage;
 
@@ -72,5 +75,20 @@ class ImageRepository extends BaseRepository
             'width'        => $img->width(),
             'published_at' => $publishDate
         ]);
+    }
+
+    /**
+     * @param Tag $tag
+     * @return Collection[]|Image[]
+     */
+    public function getByTag(Tag $tag): Collection
+    {
+        $images = $this->model->where('title', 'like', "%{$tag->name}%")
+            ->orderBy('published_at', 'desc')
+            ->take(50)
+            ->get()
+            ->load(['site', 'page']);
+
+        return $images;
     }
 }
