@@ -93,10 +93,10 @@ class ImageRepository extends BaseRepository
     public function getRecent(): Collection
     {
         $images = $this->model
+            ->with(['site', 'page'])
+            ->where('published_at', '>=', now()->subHours(24))
             ->orderBy('published_at', 'desc')
-            ->take(15)
-            ->get()
-            ->load(['site', 'page']);
+            ->get();
 
         return $images;
     }
