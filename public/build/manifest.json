@@ -1,6 +1,6 @@
 {
   "resources/js/app.tsx": {
-    "file": "assets/app.2357f4cd.js",
+    "file": "assets/app.56d095d5.js",
     "src": "resources/js/app.tsx",
     "isEntry": true,
     "dynamicImports": [
@@ -10,41 +10,41 @@
     ]
   },
   "resources/js/Pages/Home.tsx": {
-    "file": "assets/Home.3686477e.js",
+    "file": "assets/Home.f3375da5.js",
     "src": "resources/js/Pages/Home.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
       "resources/js/Pages/Layout.tsx",
-      "_Results.bd43780f.js"
+      "_Results.996a03fd.js"
     ]
   },
   "resources/js/Pages/Layout.tsx": {
-    "file": "assets/Layout.16340b75.js",
+    "file": "assets/Layout.0ddad9da.js",
     "src": "resources/js/Pages/Layout.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx"
     ]
   },
-  "_Results.bd43780f.js": {
-    "file": "assets/Results.bd43780f.js",
+  "_Results.996a03fd.js": {
+    "file": "assets/Results.996a03fd.js",
     "imports": [
       "resources/js/app.tsx"
     ]
   },
   "resources/js/Pages/Tag.tsx": {
-    "file": "assets/Tag.b3d423b4.js",
+    "file": "assets/Tag.f86bb19a.js",
     "src": "resources/js/Pages/Tag.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_Results.bd43780f.js",
+      "_Results.996a03fd.js",
       "resources/js/Pages/Layout.tsx"
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app.1cb59b14.css",
+    "file": "assets/app.544c98be.css",
     "src": "resources/css/app.css",
     "isEntry": true
   }
