@@ -59,18 +59,25 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         this.searchUpdate(term, true)
     }
 
-    formatSearchLoadTime(): string {
+    formatSearchLoadTime(): string | null {
         const startTime = this.state.searchStartTime || 0;
         const endTime = this.state.searchEndTime || 0;
 
         const milliDiff = endTime - startTime;
-        return (milliDiff / 1000).toFixed(2);
+        if (milliDiff) {
+            return (milliDiff / 1000).toFixed(2);
+        }
+
+        return null
     }
 
     render() {
-        // const results = this.state.searchResults.length ? this.state.searchResults : this.props.recentImages
-        const results = this.state.searchResults
-        const numResults = results.length;
+        const results = this.state.searchResults.length ? this.state.searchResults : this.props.recentImages
+        const numResults = results.length
+        const loadTime = this.formatSearchLoadTime()
+        const title = this.state.term
+            ? `Latest ${this.state.term} images`
+            : 'Recent Images for Today'
 
         return (
             <Layout>
@@ -78,14 +85,15 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                     <Search searchHandler={this.searchUpdate} term={this.state.term} />
                     <Autocomplete selectTagHandler={this.autocompleteSelect} tag={this.state.term} results={this.state.autocompleteResults} />
                 </form>
-                <div>
+                <section>
+                    <h2 className="text-center text-2xl font-bold">{title}</h2>
                     {
-                        numResults
-                            ? <p>We found {numResults} images in {this.formatSearchLoadTime()} secs.</p>
+                        numResults && loadTime
+                            ? <p className="text-right px-2 text-sm">We found {numResults} images in {loadTime} secs.</p>
                             : null
                     }
                     <Results results={results} />
-                </div>
+                </section>
             </Layout>
         )
     }
