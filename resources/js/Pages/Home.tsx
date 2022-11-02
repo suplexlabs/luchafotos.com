@@ -5,19 +5,23 @@ import Search from "../UI/Forms/Search";
 import Autocomplete from '../UI/Forms/Autocomplete';
 import Results from '../UI/Results';
 
-interface HomeProps { urls: { search: string, tagsSimilar: string } }
+interface Image {
+    id: number,
+    url: string,
+    title: string,
+    site: { domain: string },
+    page: { url: string, title: string }
+}
+interface HomeProps {
+    urls: { search: string, tagsSimilar: string },
+    recentImages: Array<Image>
+}
 interface HomeState {
     term: string,
     searchStartTime?: number,
     searchEndTime?: number,
     autocompleteResults: Array<{ name: string }>,
-    searchResults: Array<{
-        id: number,
-        url: string,
-        title: string,
-        site: { domain: string },
-        page: { url: string, title: string }
-    }>
+    searchResults: Array<Image>
 }
 
 export default class Home extends React.Component<HomeProps, HomeState> {
@@ -64,7 +68,9 @@ export default class Home extends React.Component<HomeProps, HomeState> {
     }
 
     render() {
-        const numResults = this.state.searchResults.length;
+        // const results = this.state.searchResults.length ? this.state.searchResults : this.props.recentImages
+        const results = this.state.searchResults
+        const numResults = results.length;
 
         return (
             <Layout>
@@ -73,8 +79,12 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                     <Autocomplete selectTagHandler={this.autocompleteSelect} tag={this.state.term} results={this.state.autocompleteResults} />
                 </form>
                 <div>
-                    {numResults ? <p className="text-lg text-center font-bold">We found {numResults} images in {this.formatSearchLoadTime()} secs.</p> : null}
-                    <Results results={this.state.searchResults} />
+                    {
+                        numResults
+                            ? <p>We found {numResults} images in {this.formatSearchLoadTime()} secs.</p>
+                            : null
+                    }
+                    <Results results={results} />
                 </div>
             </Layout>
         )
