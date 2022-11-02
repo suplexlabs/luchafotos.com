@@ -9,8 +9,6 @@ use App\Models\Site;
 use App\Models\Source;
 use App\Models\Tag;
 use Carbon\Carbon;
-use Exception;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\Facades\Image as FacadesImage;
@@ -83,9 +81,20 @@ class ImageRepository extends BaseRepository
      */
     public function getByTag(Tag $tag): Collection
     {
-        $images = $this->model->where('title', 'like', "%{$tag->name}%")
+        $images = $this->model->search($tag->name)
             ->orderBy('published_at', 'desc')
             ->take(50)
+            ->get()
+            ->load(['site', 'page']);
+
+        return $images;
+    }
+
+    public function getRecent(): Collection
+    {
+        $images = $this->model
+            ->orderBy('published_at', 'desc')
+            ->take(15)
             ->get()
             ->load(['site', 'page']);
 

@@ -5,19 +5,23 @@ import Search from "../UI/Forms/Search";
 import Autocomplete from '../UI/Forms/Autocomplete';
 import Results from '../UI/Results';
 
-interface HomeProps { urls: { search: string, tagsSimilar: string } }
+interface Image {
+    id: number,
+    url: string,
+    title: string,
+    site: { domain: string },
+    page: { url: string, title: string }
+}
+interface HomeProps {
+    urls: { search: string, tagsSimilar: string },
+    recentImages: Array<Image>
+}
 interface HomeState {
     term: string,
     searchStartTime?: number,
     searchEndTime?: number,
     autocompleteResults: Array<{ name: string }>,
-    searchResults: Array<{
-        id: number,
-        url: string,
-        title: string,
-        site: { domain: string },
-        page: { url: string, title: string }
-    }>
+    searchResults: Array<Image>
 }
 
 export default class Home extends React.Component<HomeProps, HomeState> {
@@ -55,16 +59,25 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         this.searchUpdate(term, true)
     }
 
-    formatSearchLoadTime(): string {
+    formatSearchLoadTime(): string | null {
         const startTime = this.state.searchStartTime || 0;
         const endTime = this.state.searchEndTime || 0;
 
         const milliDiff = endTime - startTime;
-        return (milliDiff / 1000).toFixed(2);
+        if (milliDiff) {
+            return (milliDiff / 1000).toFixed(2);
+        }
+
+        return null
     }
 
     render() {
-        const numResults = this.state.searchResults.length;
+        const results = this.state.searchResults.length ? this.state.searchResults : this.props.recentImages
+        const numResults = results.length
+        const loadTime = this.formatSearchLoadTime()
+        const title = this.state.term
+            ? `Latest ${this.state.term} images`
+            : 'Recent Images for Today'
 
         return (
             <Layout>
@@ -72,10 +85,15 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                     <Search searchHandler={this.searchUpdate} term={this.state.term} />
                     <Autocomplete selectTagHandler={this.autocompleteSelect} tag={this.state.term} results={this.state.autocompleteResults} />
                 </form>
-                <div>
-                    {numResults ? <p className="text-lg text-center font-bold">We found {numResults} images in {this.formatSearchLoadTime()} secs.</p> : null}
-                    <Results results={this.state.searchResults} />
-                </div>
+                <section>
+                    <h2 className="text-center text-2xl font-bold">{title}</h2>
+                    {
+                        numResults && loadTime
+                            ? <p className="text-right px-2 text-sm">We found {numResults} images in {loadTime} secs.</p>
+                            : null
+                    }
+                    <Results results={results} />
+                </section>
             </Layout>
         )
     }

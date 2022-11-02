@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Repositories\ImageRepository;
 use Inertia\Inertia;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TagController extends Controller
 {
