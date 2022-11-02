@@ -23,25 +23,32 @@ export default class Search extends React.Component<SearchProps, SearchState> {
     render() {
         return (
             <div>
-                <div className="flex flex-col gap-4 text-center text-2xl">
-                    <label htmlFor="search">I want to find an image of...</label>
-                    <input
-                        className="p-4 text-stone-600 focus:shadow-lg focus:shadow-stone-600"
-                        id="search"
-                        ref={this.inputRef}
-                        type="search"
-                        placeholder="Seth Rollins"
-                        value={this.props.term}
-                        onChange={this.search}
-                        autoComplete="false"
-                    />
+                <div className="flex flex-col gap-4 text-center">
+                    <label className="text-2xl" htmlFor="search">I want to find an image of...</label>
+                    <div className="flex">
+                        <input
+                            className="p-4 text-stone-600 focus:shadow-lg focus:shadow-stone-600 flex-grow"
+                            id="search"
+                            ref={this.inputRef}
+                            type="search"
+                            placeholder=""
+                            value={this.props.term}
+                            onChange={this.search}
+                            autoComplete="false"
+                        />
+                        <button
+                            className="bg-stone-700 px-4 py-2 font-bold hover:bg-stone-500"
+                            onClick={this.search}
+                        >search</button>
+                    </div>
                 </div>
             </div>
         );
     }
 
-    search(event: React.ChangeEvent) {
-        const target = event.target as HTMLInputElement
-        this.props.searchHandler(target.value)
+    search(event: React.SyntheticEvent) {
+        event.preventDefault()
+
+        this.props.searchHandler(this.inputRef.current?.value)
     }
 }
