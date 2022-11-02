@@ -29,12 +29,13 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         super(props)
 
         this.searchUpdate = this.searchUpdate.bind(this)
+        this.searchSelected = this.searchSelected.bind(this)
         this.autocompleteSelect = this.autocompleteSelect.bind(this)
         this.state = { term: '', searchResults: [], autocompleteResults: [] }
     }
 
-    searchUpdate(term: string, clearAutocomplete: boolean = false) {
-        this.setState({ term, searchStartTime: Date.now() })
+    searchSelected(term: string) {
+        this.setState({ term, searchStartTime: Date.now(), autocompleteResults: [] })
 
         axios.get(this.props.urls.search, { params: { term } })
             .then((response) => {
@@ -43,20 +44,19 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                     searchEndTime: Date.now()
                 })
             })
+    }
 
-        if (clearAutocomplete) {
-            this.setState({ autocompleteResults: [] })
-        }
-        else {
-            axios.get(this.props.urls.tagsSimilar, { params: { tag: term } })
-                .then(response => {
-                    this.setState({ autocompleteResults: response.data.results || [] });
-                })
-        }
+    searchUpdate(term: string) {
+        this.setState({ term })
+
+        axios.get(this.props.urls.tagsSimilar, { params: { tag: term } })
+            .then(response => {
+                this.setState({ autocompleteResults: response.data.results || [] });
+            })
     }
 
     autocompleteSelect(term: string) {
-        this.searchUpdate(term, true)
+        this.searchSelected(term)
     }
 
     formatSearchLoadTime(): string | null {
@@ -82,7 +82,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         return (
             <Layout>
                 <form className="max-w-lg mx-auto p-2 mt-10 mb-4">
-                    <Search searchHandler={this.searchUpdate} term={this.state.term} />
+                    <Search searchChangeHandler={this.searchUpdate} searchSelectedHandler={this.searchSelected} term={this.state.term} />
                     <Autocomplete selectTagHandler={this.autocompleteSelect} tag={this.state.term} results={this.state.autocompleteResults} />
                 </form>
                 <section>

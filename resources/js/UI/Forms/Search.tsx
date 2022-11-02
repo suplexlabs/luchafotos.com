@@ -2,9 +2,12 @@ import React, { RefObject } from "react";
 
 interface SearchProps {
     term: string,
-    searchHandler: Function
+    searchSelectedHandler: Function,
+    searchChangeHandler: Function
 }
-interface SearchState { }
+interface SearchState {
+    term: string
+}
 
 export default class Search extends React.Component<SearchProps, SearchState> {
     inputRef: RefObject<HTMLInputElement>;
@@ -12,7 +15,10 @@ export default class Search extends React.Component<SearchProps, SearchState> {
     constructor(props: SearchProps) {
         super(props)
 
-        this.search = this.search.bind(this);
+        this.state = { term: '' }
+
+        this.searchChange = this.searchChange.bind(this);
+        this.searchSelected = this.searchSelected.bind(this);
         this.inputRef = React.createRef();
     }
 
@@ -31,14 +37,13 @@ export default class Search extends React.Component<SearchProps, SearchState> {
                             id="search"
                             ref={this.inputRef}
                             type="search"
-                            placeholder=""
-                            value={this.props.term}
-                            onChange={this.search}
+                            onChange={this.searchChange}
+                            value={this.props.term || this.state.term}
                             autoComplete="false"
                         />
                         <button
                             className="bg-stone-700 px-4 py-2 font-bold hover:bg-stone-500"
-                            onClick={this.search}
+                            onClick={this.searchSelected}
                         >search</button>
                     </div>
                 </div>
@@ -46,9 +51,20 @@ export default class Search extends React.Component<SearchProps, SearchState> {
         );
     }
 
-    search(event: React.SyntheticEvent) {
+    searchChange(event: React.SyntheticEvent) {
+        const term = this.inputRef.current?.value || ''
+        this.setState({ term })
+
+        this.props.searchChangeHandler(term)
+
+        if (!term) {
+            this.searchSelected(event)
+        }
+    }
+
+    searchSelected(event: React.SyntheticEvent) {
         event.preventDefault()
 
-        this.props.searchHandler(this.inputRef.current?.value)
+        this.props.searchSelectedHandler(this.inputRef.current?.value)
     }
 }
