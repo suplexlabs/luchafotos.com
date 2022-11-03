@@ -31,7 +31,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
             <div>
                 <div className="flex flex-col gap-4 text-center">
                     <label className="text-2xl" htmlFor="search">I want to find an image of...</label>
-                    <div className="flex">
+                    <div className="flex gap-2">
                         <input
                             className="p-4 text-stone-600 focus:shadow-lg focus:shadow-stone-600 flex-grow"
                             id="search"
@@ -42,7 +42,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
                             autoComplete="false"
                         />
                         <button
-                            className="bg-stone-700 px-4 py-2 font-bold hover:bg-stone-500"
+                            className="bg-yellow-300 text-stone-600 px-4 py-2 font-bold hover:bg-yellow-400"
                             onClick={this.searchSelected}
                         >search</button>
                     </div>

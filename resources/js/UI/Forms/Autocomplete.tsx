@@ -21,6 +21,9 @@ export default class Autocomplete extends React.Component<AutocompleteProps, Aut
     }
 
     render() {
+        if (!this.props.results.length) {
+            return null;
+        }
         return <ul className="bg-white mt-4">
             {
                 this.props.results.map(result => {

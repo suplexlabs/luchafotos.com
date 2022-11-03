@@ -27,6 +27,7 @@
     </head>
     <body class="bg-brand-dark text-white">
         <header class="mx-auto max-w-2xl text-center mb-8">
+            <h1 class="hidden">Lucha Fotos</h1>
             <a href="/">
                 <img class="mx-auto" src="/img/luchafotos-logo.png" alt="The Lucha Fotos logo" width="400" />
             </a>
