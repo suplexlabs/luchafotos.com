@@ -28,6 +28,8 @@ class TagService
         $tags = collect([]);
         $companies = Companies::cases();
 
+        $image->load(['site']);
+        
         foreach ($companies as $company) {
             if ($image->site->isCompany($company)) {
                 $tag = Tag::updateOrCreate([
