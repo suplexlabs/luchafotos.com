@@ -26,7 +26,7 @@ class TagRepository extends BaseRepository
                 $tagName = $tag->name;
                 $indexFound = stripos($tagName, $name);
                 $indexEnd = $indexFound + strlen($name);
-                $nextChar = $tagName[$indexEnd++];
+                $nextChar = isset($tagName[$indexEnd++]) ? $tagName[$indexEnd++] : ' ';
 
                 if ($nextChar != ' ') {
                     $indexFound += 10;
