@@ -15,7 +15,7 @@ class Image extends Model
     use Searchable;
 
     protected $guarded = ['id'];
-    protected $dates = ['published_at'];
+    protected $casts = ['published_at' => 'datetime'];
 
     public function source(): BelongsTo
     {
