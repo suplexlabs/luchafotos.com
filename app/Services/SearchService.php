@@ -11,7 +11,7 @@ class SearchService
     {
         $images = Image::search($term)
             ->take(100)
-            ->orderBy('publish_at')
+            ->orderBy('published_at')
             ->get()
             ->load([
                 'page' => function ($query) {
