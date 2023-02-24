@@ -94,8 +94,9 @@ class ImageRepository extends BaseRepository
     {
         $images = $this->model
             ->with(['site', 'page'])
-            ->where('published_at', '>=', now()->subHours(30))
+            ->where('published_at', '>=', now()->subDays(3))
             ->orderBy('published_at', 'desc')
+            ->limit(50)
             ->get();
 
         return $images;
