@@ -18,6 +18,7 @@ class WWEShowsSpider extends JavascriptSpider
     public function parse(Response $response): Generator
     {
         $anchors = $response->filter('.wwe-shows-hub--show')->links();
+
         foreach ($anchors as $anchor) {
             yield $this->request('GET', $anchor->getUri(), 'parseShowPage');
         }

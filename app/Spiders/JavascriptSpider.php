@@ -3,7 +3,7 @@
 namespace App\Spiders;
 
 use App\Datas\ImageData;
-use App\Spiders\Middleware\ExecuteJavascriptMiddleware;
+use App\Spiders\Middleware\BrowserlessMiddleware;
 use Generator;
 use RoachPHP\Downloader\Middleware\RequestDeduplicationMiddleware;
 use RoachPHP\Downloader\Middleware\UserAgentMiddleware;
@@ -30,27 +30,7 @@ class JavascriptSpider extends BasicSpider
 
     public function __construct()
     {
-        $options = [
-            'chromiumArguments' => [
-                'disable-setuid-sandbox',
-                'disable-dev-shm-usage',
-                'disable-accelerated-2d-canvas',
-                'disable-gpu'
-            ]
-        ];
-
-        if (config('app.env') == 'local') {
-            $options['wsEndpoint'] = 'ws://chrome:3000';
-            $options['chromiumArguments'] = [
-                'enable-logging',
-                'virtual-time-budget' => '30000'
-            ];
-        }
-
-        $this->downloaderMiddleware[] = [
-            ExecuteJavascriptMiddleware::class,
-            $options
-        ];
+        $this->downloaderMiddleware[] = BrowserlessMiddleware::class;
 
         parent::__construct();
     }
