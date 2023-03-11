@@ -5,7 +5,6 @@ namespace App\Spiders;
 use App\Spiders\Traits\HasSource;
 use Generator;
 use RoachPHP\Http\Response;
-use Symfony\Component\DomCrawler\Crawler;
 
 class WWEShowsSpider extends JavascriptSpider
 {
