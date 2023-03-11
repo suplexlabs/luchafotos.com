@@ -43,13 +43,7 @@ class WWEShowsSpider extends JavascriptSpider
 
         foreach ($images as $image) {
             $data = $this->getImageDataByImage($response, $image);
-
-            try {
-                $this->dispatchJob($data, $source);
-            } catch (\Exception $e) {
-                dd($data, $e);
-            }
-
+            $this->dispatchJob($data, $source);
             yield $this->item($data->toArray());
         }
     }
@@ -58,21 +52,19 @@ class WWEShowsSpider extends JavascriptSpider
     {
         $source = $this->getSource();
 
-        /** @var \DOMElement[] $cards */
         $response->filter('.episode-feed-cards .episode-feed-card')
             ->each(function ($card) use ($source, $response) {
                 try {
                     $image = $card->filter('.episode-feed-card--primary-img img')->image();
+                    $data = $this->getImageDataByImage($response, $image);
+
+                    $data->title = $card->filter('.episode-feed-card--title')->text();
+                    $data->pageTitle = $image->getNode()->getAttribute('title');
+
+                    $this->dispatchJob($data, $source);
                 } catch (\Exception $e) {
                     return;
                 }
-
-                $data = $this->getImageDataByImage($response, $image);
-
-                $data->title = $card->filter('.episode-feed-card--title')->text();
-                $data->pageTitle = $image->getNode()->getAttribute('title');
-
-                $this->dispatchJob($data, $source);
             });
 
         yield $this->item([]);
