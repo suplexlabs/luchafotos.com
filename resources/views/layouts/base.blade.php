@@ -37,9 +37,5 @@
         <footer class="py-10 px-4 font-bold mt-20 text-white text-center">
             &copy; 2022 Lucha Fotos. A <a class="underline" target="_blank" href="https://www.wrestlefive.com">Wrestle Five</a> site. Built by <a class="underline" target="_blank" href="https://mobile.twitter.com/imperez">Rich Perez</a>.
         </footer>
-
-        @if(config('app.env') == 'production')
-            <script defer data-domain="luchafotos.com" src="https://plausible.io/js/plausible.js"></script>
-        @endif
     </body>
 </html>
