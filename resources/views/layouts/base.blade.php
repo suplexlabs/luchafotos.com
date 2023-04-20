@@ -35,7 +35,7 @@
         </header>
         @yield('content')
         <footer class="py-10 px-4 font-bold mt-20 text-white text-center">
-            &copy; 2022 Lucha Fotos. A <a class="underline" target="_blank" href="https://www.wrestlefive.com">Wrestle Five</a> site. Built by <a class="underline" target="_blank" href="https://mobile.twitter.com/imperez">Rich Perez</a>.
+            &copy; 2022 Lucha Fotos. A <a class="underline" target="_blank" href="https://www.suplexlabs.com">Suplex Labs</a> site. Built by <a class="underline" target="_blank" href="https://mobile.twitter.com/imperez">Rich Perez</a>.
         </footer>
     </body>
 </html>
